@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Net.Mime;
@@ -34,7 +34,7 @@ namespace Pokégen.PkHex.Controllers
 		/// <returns>Pokemon Data as File</returns>
 		/// <response code="200">Returns the Pokemon Data of Showdown set</response>
 		/// <response code="400">The Pokemon set is invalid or illegal</response>     
-		[HttpGet]
+		[HttpGet, HttpPost]
 		[Route("/showdown")]
 		[Produces(MediaTypeNames.Application.Octet)]
 		[ProducesResponseType(StatusCodes.Status200OK)]
@@ -53,7 +53,7 @@ namespace Pokégen.PkHex.Controllers
 		/// <returns>Nothing</returns>
 		/// <response code="204">Pokemon is legal</response>
 		/// <response code="400">Pokemon is illegal</response>  
-		[HttpGet]
+		[HttpGet, HttpPost]
 		[Route("/showdown/legality")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -114,7 +114,7 @@ namespace Pokégen.PkHex.Controllers
 		/// </summary>
 		/// <param name="file">Uploaded Pokemon file</param>
 		/// <returns>Pokemon Data of file</returns>
-		[HttpGet]
+		[HttpGet, HttpPost]
 		[Route("/file")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -133,7 +133,7 @@ namespace Pokégen.PkHex.Controllers
 		/// <returns>Nothing</returns>
 		/// <response code="204">Pokemon is legal</response>
 		/// <response code="400">Pokemon is illegal</response>  
-		[HttpGet]
+		[HttpGet, HttpPost]
 		[Route("/file/legality")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
