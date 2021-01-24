@@ -45,6 +45,8 @@ TBD
 * [Nuget](https://www.nuget.org/) - Dependency Management
 * [Serilog](https://serilog.net/) - The logging framework used
 * [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) - Swagger (OpenAPI) Integration
+* [PkHex](https://github.com/kwsch/PKHeX) - Pokemon Save File Editor
+* [AutoLegalityMod](https://github.com/architdate/PKHeX-Plugins) - PkHex Automated Modifications 
 
 ## Versioning
 
