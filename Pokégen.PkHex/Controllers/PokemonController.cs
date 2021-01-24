@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -75,7 +76,7 @@ namespace Pokégen.PkHex.Controllers
 		/// <response code="204">Returns the Pokemon Data of the file</response>
 		/// <response code="400">Pokemon is illegal or invalid</response>  
 		[HttpGet]
-		[Route("/file")]
+		[Route("/url")]
 		[Produces(MediaTypeNames.Application.Octet)]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -95,7 +96,7 @@ namespace Pokégen.PkHex.Controllers
 		/// <response code="204">Pokemon is legal</response>
 		/// <response code="400">Pokemon is illegal</response>  
 		[HttpGet]
-		[Route("/file/legal")]
+		[Route("/url/legal")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		public async Task<IActionResult> CheckUrlLegality([FromQuery, Required] string url, [FromQuery] long? size)
@@ -106,6 +107,53 @@ namespace Pokégen.PkHex.Controllers
 				return NoContent();
 			
 			return BadRequest();
+		}
+
+		/// <summary>
+		/// Returns Pokemon Data from an uploaded file.
+		/// </summary>
+		/// <param name="file">Uploaded Pokemon file</param>
+		/// <returns>Pokemon Data of file</returns>
+		[HttpGet]
+		[Route("/file")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[RequestFormLimits(MultipartBodyLengthLimit = 344)]
+		public async Task<IActionResult> GetPokemonFromFile([FromForm, Required] IFormFile file)
+		{
+			var pkm = await GetPokemonFromFormFileAsync(file);
+			
+			return await ReturnPokemonFile(pkm);
+		}
+		
+		/// <summary>
+		/// Checks if a Pokemon file is legal
+		/// </summary>
+		/// <param name="file">Uploaded Pokemon file</param>
+		/// <returns>Nothing</returns>
+		/// <response code="204">Pokemon is legal</response>
+		/// <response code="400">Pokemon is illegal</response>  
+		[HttpGet]
+		[Route("/file/legal")]
+		[ProducesResponseType(StatusCodes.Status204NoContent)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[RequestFormLimits(MultipartBodyLengthLimit = 344)]
+		public async Task<IActionResult> CheckFileLegality([FromForm, Required] IFormFile file)
+		{
+			var pkm = await GetPokemonFromFormFileAsync(file);
+
+			if (pkm.IsLegal())
+				return NoContent();
+			
+			return BadRequest();
+		}
+
+		private async Task<PKM> GetPokemonFromFormFileAsync(IFormFile file)
+		{
+			await using var stream = new MemoryStream();
+			await file.CopyToAsync(stream);
+
+			return PKMConverter.GetPKMfromBytes(stream.GetBuffer(), file.FileName.Contains("pk6") ? 6 : 7);
 		}
 
 		private Task<PKM> GetPokemonFromShowdown(string showdownSet)
