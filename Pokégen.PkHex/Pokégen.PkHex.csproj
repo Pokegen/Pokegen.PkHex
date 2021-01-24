@@ -4,7 +4,16 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\Pokégen.PkHex.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DocumentationFile>bin\Release\Pokégen.PkHex.xml</DocumentationFile>
+    </PropertyGroup>
+
     <ItemGroup>
+        <PackageReference Include="AspNetCore.ExceptionHandler" Version="1.1.0" />
         <PackageReference Include="PKHeX.Core" Version="20.12.30" />
         <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
         <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />

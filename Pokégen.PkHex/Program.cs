@@ -1,4 +1,3 @@
-using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Pokégen.PkHex.Util;
@@ -29,7 +28,9 @@ namespace Pokégen.PkHex
 							outputTemplate:
 							"[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] [{ThreadName}] {Message:lj}\n{Exception}",
 							theme: SystemConsoleTheme.Colored);
-				}, writeToProviders: true)
-				.ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
+				})
+				.ConfigureWebHostDefaults(webBuilder => webBuilder
+					.UseStartup<Startup>()
+				);
 	}
 }

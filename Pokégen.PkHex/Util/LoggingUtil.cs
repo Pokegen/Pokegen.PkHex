@@ -5,6 +5,6 @@ namespace Pokégen.PkHex.Util
 	public static class LoggingUtil
 	{
 		public static bool IsDevelopment
-			=> Environment.GetEnvironmentVariable("ENVIRONMENT") == "DEVELOPMENT";
+			=> Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
 	}
 }
