@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Net.Mime;
@@ -54,7 +54,7 @@ namespace Pokégen.PkHex.Controllers
 		/// <response code="204">Pokemon is legal</response>
 		/// <response code="400">Pokemon is illegal</response>  
 		[HttpGet]
-		[Route("/showdown/legal")]
+		[Route("/showdown/legality")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		public async Task<IActionResult> CheckShowdownLegality([FromBody, Required] PokemonShowdownRequest body)
@@ -96,7 +96,7 @@ namespace Pokégen.PkHex.Controllers
 		/// <response code="204">Pokemon is legal</response>
 		/// <response code="400">Pokemon is illegal</response>  
 		[HttpGet]
-		[Route("/url/legal")]
+		[Route("/url/legality")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		public async Task<IActionResult> CheckUrlLegality([FromQuery, Required] string url, [FromQuery] long? size)
@@ -134,7 +134,7 @@ namespace Pokégen.PkHex.Controllers
 		/// <response code="204">Pokemon is legal</response>
 		/// <response code="400">Pokemon is illegal</response>  
 		[HttpGet]
-		[Route("/file/legal")]
+		[Route("/file/legality")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[RequestFormLimits(MultipartBodyLengthLimit = 344)]
