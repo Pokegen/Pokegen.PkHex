@@ -50,7 +50,7 @@ namespace Pokégen.PkHex
 				{
 					Title = "Pokégen.PkHex",
 					Version = "v1",
-					Description = "",
+					Description = "REST API providing PkHex & ALM functionality",
 					Contact = new OpenApiContact
 					{
 						Name = "DevYukine",
