@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Pokégen.PkHex.Health;
 using Pokégen.PkHex.Services;
 using Serilog;
 
@@ -61,6 +62,9 @@ namespace Pokégen.PkHex
 				var filePath = Path.Combine(AppContext.BaseDirectory, "Pokégen.PkHex.xml");
 				c.IncludeXmlComments(filePath);
 			});
+			
+			services.AddHealthChecks()
+				.AddCheck<ApplicationHealthCheck>("health");
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,7 +87,12 @@ namespace Pokégen.PkHex
 
 			app.UseAuthorization();
 
-			app.UseEndpoints(endpoints => endpoints.MapControllers());
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllers();
+				endpoints.MapHealthChecks("/_status/healthz");
+				endpoints.MapHealthChecks("/_status/ready");
+			});
 		}
 	}
 }

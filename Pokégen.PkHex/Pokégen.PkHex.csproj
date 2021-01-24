@@ -14,6 +14,7 @@
 
     <ItemGroup>
         <PackageReference Include="AspNetCore.ExceptionHandler" Version="1.1.0" />
+        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="5.0.2" />
         <PackageReference Include="PKHeX.Core" Version="20.12.30" />
         <PackageReference Include="Sentry.AspNetCore" Version="2.1.8" />
         <PackageReference Include="Sentry.Serilog" Version="2.1.8" />
