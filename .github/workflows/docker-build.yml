@@ -20,6 +20,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Get short hash of commit
+        id: sha_short
+        shell: bash
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
@@ -28,7 +32,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            pokegen/pkhex-api:${{ GITHUB_SHA::8 }}
+            pokegen/pkhex-api:${{ steps.sha_short.outputs.sha_short }}
             pokegen/pkhex-api:latest
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
