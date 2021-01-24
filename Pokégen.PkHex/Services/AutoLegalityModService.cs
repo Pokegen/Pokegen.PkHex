@@ -53,7 +53,7 @@ namespace Pokégen.PkHex.Services
 	        var languageName = GetEnvOrThrow("PKHEX_DEFAULT_LANGUAGE");
 
 	        if (!Enum.TryParse<LanguageID>(languageName, true, out var language))
-		        throw new Exception($"Invalid default language ${languageName}");
+		        throw new Exception($"Invalid default language {languageName}");
 
             for (var i = 1; i < PKX.Generation + 1; i++)
             {
