@@ -26,11 +26,11 @@ These endpoints all are `GET` endpoints (`/showdown` & `/file` also accept `POST
 
   Expects JSON Body with `showdownSet` property which contains an [Pokemon Showdown](https://pokemonshowdown.com/) set.
 
-- `/url`
+- `/url/legality`
 
   Expects a Query parameter named `url` containing the url of the Pokemon file, Optional, the size of the file if already known ahead of making a request.
 
-- `/file`
+- `/file/legality`
 
   Expects a Multipart form parameter called `file` which contains a Pokemon file.
 
