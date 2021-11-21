@@ -46,8 +46,8 @@ jobs:
           tags: |
             pokegen/pkhex-api:${{ steps.sha_short.outputs.sha_short }}
             pokegen/pkhex-api:latest
-            ghcr.io/Pokegen/pkhex-api:${{ steps.sha_short.outputs.sha_short }}
-            ghcr.io/Pokegen/pkhex-api:latest
+            ghcr.io/pokegen/pkhex-api:${{ steps.sha_short.outputs.sha_short }}
+            ghcr.io/pokegen/pkhex-api:latest
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
