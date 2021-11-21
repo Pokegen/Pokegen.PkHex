@@ -42,6 +42,7 @@ namespace Pokégen.PkHex.Services
             APILegality.ForceSpecifiedBall = true;
             APILegality.UseXOROSHIRO = true;
             APILegality.AllowTrainerOverride = true;
+            APILegality.AllowBatchCommands = true;
             Legalizer.EnableEasterEggs = false;
         }
 
