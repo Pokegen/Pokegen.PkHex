@@ -39,7 +39,7 @@ namespace Pokégen.PkHex
 							var dsn = Environment.GetEnvironmentVariable("SENTRY_DSN");
 
 							if (dsn != null)
-								o.Dsn = new Dsn(dsn);
+								o.Dsn = dsn;
 						});
 				})
 				.ConfigureWebHostDefaults(webBuilder => webBuilder
