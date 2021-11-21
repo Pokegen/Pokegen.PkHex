@@ -15,7 +15,7 @@ namespace Pokégen.PkHex.Services
         public AutoLegalityModService()
         {
             SetupSettings();
-            SetupCoreStrings();
+            InitializeCoreStrings();
         }
 
         public Task StartAsync(CancellationToken cancellationToken) 
@@ -72,7 +72,7 @@ namespace Pokégen.PkHex.Services
             PKMConverter.SetPrimaryTrainer(trainer);
         }
 
-        private static void SetupCoreStrings()
+        private static void InitializeCoreStrings()
         {
             var lang = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.Substring(0, 2);
             LocalizationUtil.SetLocalization(typeof(LegalityCheckStrings), lang);
