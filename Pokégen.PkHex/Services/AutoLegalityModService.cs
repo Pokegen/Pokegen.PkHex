@@ -52,20 +52,25 @@ namespace Pokégen.PkHex.Services
 	        var trainerId = int.Parse(GetEnvOrThrow("PKHEX_DEFAULT_TID"));
 	        var secretId = int.Parse(GetEnvOrThrow("PKHEX_DEFAULT_SID"));
 	        var languageName = GetEnvOrThrow("PKHEX_DEFAULT_LANGUAGE");
-
+	        
 	        if (!Enum.TryParse<LanguageID>(languageName, true, out var language))
 		        throw new Exception($"Invalid default language {languageName}");
 
-            for (var i = 1; i < PKX.Generation + 1; i++)
+	        SaveFile GetFallbackBlank(int generation)
             {
-                var blankSav = SaveUtil.GetBlankSAV(i, ot);
+                var blankSav = SaveUtil.GetBlankSAV(generation, ot);
                 blankSav.Language = (int) language;
                 blankSav.TID = trainerId;
                 blankSav.SID = secretId;
                 blankSav.OT = ot;
-                var fallback = blankSav;
+                return blankSav;
+            }
+
+            for (var i = 1; i < PKX.Generation + 1; i++)
+            {
+                var fallback = GetFallbackBlank(i);
                 var exist = TrainerSettings.GetSavedTrainerData(i, fallback);
-                if (exist == fallback)
+                if (ReferenceEquals(exist, fallback))
                     TrainerSettings.Register(fallback);
             }
 
@@ -76,11 +81,11 @@ namespace Pokégen.PkHex.Services
         private static void InitializeCoreStrings()
         {
             var lang = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.Substring(0, 2);
-            LocalizationUtil.SetLocalization(typeof(LegalityCheckStrings), lang);
-            LocalizationUtil.SetLocalization(typeof(MessageStrings), lang);
-            RibbonStrings.ResetDictionary(GameInfo.Strings.ribbons);
-            
-            ParseSettings.ChangeLocalizationStrings(GameInfo.Strings.movelist, GameInfo.Strings.specieslist);
+	        LocalizationUtil.SetLocalization(typeof(LegalityCheckStrings), lang);
+	        LocalizationUtil.SetLocalization(typeof(MessageStrings), lang);
+	        RibbonStrings.ResetDictionary(GameInfo.Strings.ribbons);
+	        
+	        ParseSettings.ChangeLocalizationStrings(GameInfo.Strings.movelist, GameInfo.Strings.specieslist);
         }
 	}
 }
