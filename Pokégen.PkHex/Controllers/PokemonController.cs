@@ -148,12 +148,16 @@ namespace Pokégen.PkHex.Controllers
 			return BadRequest();
 		}
 
-		private async Task<PKM> GetPokemonFromFormFileAsync(IFormFile file)
+		private static async Task<PKM> GetPokemonFromFormFileAsync(IFormFile file)
 		{
 			await using var stream = new MemoryStream();
 			await file.CopyToAsync(stream);
 
-			return PKMConverter.GetPKMfromBytes(stream.GetBuffer(), file.FileName.Contains("pk6") ? 6 : 7);
+			var pokemon = PKMConverter.GetPKMfromBytes(stream.GetBuffer(), file.FileName.Contains("pk6") ? 6 : 7);
+
+			if (pokemon == null) throw new PokemonParseException("Couldn't parse provided file to any possible pokemon save file format.");
+
+			return pokemon;
 		}
 
 		private Task<PKM> GetPokemonFromShowdown(string showdownSet)
