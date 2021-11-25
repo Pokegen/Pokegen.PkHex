@@ -3,7 +3,7 @@ using AspNetCore.ExceptionHandler;
 
 namespace Pokégen.PkHex.Exceptions.Api
 {
-	public abstract class ApiBaseException<T> : Exception, IExplainableException
+	public abstract class ApiBaseException : Exception, IExplainableException
 	{
 		protected ApiBaseException()
 		{
@@ -13,11 +13,7 @@ namespace Pokégen.PkHex.Exceptions.Api
 		{
 		}
 
-		public object Explain() 
-			=> new ApiExceptions
-			{
-				ErrorType = GetType().Name.Replace("Exception", ""),
-				Message = Message
-			};
+		public object Explain()
+			=> new ApiExceptions(GetType().Name.Replace("Exception", ""), Message);
 	}
 }
