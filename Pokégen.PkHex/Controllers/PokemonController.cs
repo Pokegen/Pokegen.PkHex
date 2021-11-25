@@ -1,12 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PKHeX.Core;
-using Pokégen.PkHex.Exceptions;
 using Pokégen.PkHex.Extensions;
 using Pokégen.PkHex.Models;
 using Pokégen.PkHex.Services;
@@ -17,13 +15,13 @@ namespace Pokégen.PkHex.Controllers
 	[ApiController]
 	public class PokemonController : ControllerBase
 	{
-		private AutoLegalityModService AutoLegalityModService { get; }
+		private PokemonService PokemonService { get; }
 		
 		private DownloaderService DownloaderService { get; }
 
-		public PokemonController(AutoLegalityModService autoLegalityModService, DownloaderService downloaderService)
+		public PokemonController(PokemonService pokemonService, DownloaderService downloaderService)
 		{
-			AutoLegalityModService = autoLegalityModService;
+			PokemonService = pokemonService;
 			DownloaderService = downloaderService;
 		}
 		
@@ -41,7 +39,7 @@ namespace Pokégen.PkHex.Controllers
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		public async Task<IActionResult> GetPokemonFromShowdown([FromBody, Required] PokemonShowdownRequest body)
 		{
-			var pkm = await GetPokemonFromShowdown(body.ShowdownSet);
+			var pkm = await PokemonService.GetPokemonFromShowdown(body.ShowdownSet);
 
 			return await ReturnPokemonFile(pkm);
 		}
@@ -59,7 +57,7 @@ namespace Pokégen.PkHex.Controllers
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		public async Task<IActionResult> CheckShowdownLegality([FromBody, Required] PokemonShowdownRequest body)
 		{
-			var pkm = await GetPokemonFromShowdown(body.ShowdownSet);
+			var pkm = await PokemonService.GetPokemonFromShowdown(body.ShowdownSet);
 
 			if (pkm.IsLegal())
 				return NoContent();
@@ -121,7 +119,7 @@ namespace Pokégen.PkHex.Controllers
 		[RequestFormLimits(MultipartBodyLengthLimit = 344)]
 		public async Task<IActionResult> GetPokemonFromFile([FromForm, Required] IFormFile file)
 		{
-			var pkm = await GetPokemonFromFormFileAsync(file);
+			var pkm = await PokemonService.GetPokemonFromFormFileAsync(file);
 			
 			return await ReturnPokemonFile(pkm);
 		}
@@ -140,7 +138,7 @@ namespace Pokégen.PkHex.Controllers
 		[RequestFormLimits(MultipartBodyLengthLimit = 344)]
 		public async Task<IActionResult> CheckFileLegality([FromForm, Required] IFormFile file)
 		{
-			var pkm = await GetPokemonFromFormFileAsync(file);
+			var pkm = await PokemonService.GetPokemonFromFormFileAsync(file);
 
 			if (pkm.IsLegal())
 				return NoContent();
@@ -148,45 +146,7 @@ namespace Pokégen.PkHex.Controllers
 			return BadRequest();
 		}
 
-		private static async Task<PKM> GetPokemonFromFormFileAsync(IFormFile file)
-		{
-			await using var stream = new MemoryStream();
-			await file.CopyToAsync(stream);
-
-			var pokemon = PKMConverter.GetPKMfromBytes(stream.GetBuffer(), file.FileName.Contains("pk6") ? 6 : 7);
-
-			if (pokemon == null) throw new PokemonParseException("Couldn't parse provided file to any possible pokemon save file format.");
-
-			return pokemon;
-		}
-
-		private Task<PKM> GetPokemonFromShowdown(string showdownSet)
-		{
-			var set = new ShowdownSet(showdownSet);
-			var template = set.GetTemplate();
-
-			var invalidLines = set.InvalidLines;
-
-			if (invalidLines.Count != 0)
-				return Task.FromException<PKM>(new ShowdownException($"Unable to parse Showdown Set:\n{string.Join("\n", invalidLines)}"));
-			
-			const int gen = 8;
-
-			var sav = AutoLegalityModService.GetTrainerInfo(gen);
-
-			var pkm = sav.GetLegal(template, out _);
-
-			pkm = PKMConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm;
-
-			return Task.FromResult(pkm);
-		}
-
-		private Task<byte[]> CheckLegalAndGetBytes(PKM pkm) 
-			=> !pkm.IsLegal() 
-				? Task.FromException<byte[]>(new LegalityException("Pokemon couldn't be legalized!")) 
-				: Task.FromResult(pkm.Data);
-		
 		private async Task<FileContentResult> ReturnPokemonFile(PKM pkm)
-			=> File(await CheckLegalAndGetBytes(pkm), MediaTypeNames.Application.Octet);
+			=> File(await PokemonService.CheckLegalAndGetBytes(pkm), MediaTypeNames.Application.Octet);
 	}
 }
