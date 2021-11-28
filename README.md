@@ -4,37 +4,9 @@ ASP.Net Core REST API providing PkHex & ALM functionality
 
 ## Getting Started
 
-### Routes
+This API currently supports creating pokemon files (.pk*, .pb* etc.) from Showdown Sets via [ALM](https://github.com/architdate/PKHeX-Plugins), checking legality of Showdown Sets/Pokemon files via [PkHex](https://github.com/kwsch/PKHeX) & getting trainer data from the data block!
 
-#### Get Pokemon Data (including Legality Checks)
-- `/showdown` 
-  
-  Expects JSON Body with `showdownSet` property which contains an [Pokemon Showdown](https://pokemonshowdown.com/) set.
-
-- `/url`
-
-  Expects a Query parameter named `url` containing the url of the Pokemon file, Optional, the size of the file if already known ahead of making a request.
-
-- `/file`
-
-  Expects a Multipart form parameter called `file` which contains a Pokemon file.
-
-These endpoints all are `GET` endpoints (`/showdown` & `/file` also accept `POST` requests because of browser compatibility) & return the Pokemon Data with `application/octet-stream` MIME type.	
-
-#### Legality Checks
-- `/showdown/legality`
-
-  Expects JSON Body with `showdownSet` property which contains an [Pokemon Showdown](https://pokemonshowdown.com/) set.
-
-- `/url/legality`
-
-  Expects a Query parameter named `url` containing the url of the Pokemon file, Optional, the size of the file if already known ahead of making a request.
-
-- `/file/legality`
-
-  Expects a Multipart form parameter called `file` which contains a Pokemon file.
-
-These endpoints all are `GET` endpoints (`/showdown` & `/file` also accept `POST` requests because of browser compatibility) & return either `204 No Content` if Legal or `400 Bad Request` if they are illegal.
+For a full overview of all routes you want to set the `ASPNETCORE_ENVIRONMENT` environment variable to `Development` which should expose an Swagger (OpenAPI integration) page at /swagger/index.html showing all routes and parameters.
 
 ## Deployment
 TBD
@@ -44,7 +16,7 @@ TBD
 * [ASP.NET Core](https://dotnet.microsoft.com/learn/aspnet/what-is-aspnet-core) - The web framework used
 * [Nuget](https://www.nuget.org/) - Dependency Management
 * [Serilog](https://serilog.net/) - The logging framework used
-* [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) - Swagger (OpenAPI) Integration
+* [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) - Swagger (OpenAPI) integration
 * [PkHex](https://github.com/kwsch/PKHeX) - Pokemon Save File Editor
 * [AutoLegalityMod](https://github.com/architdate/PKHeX-Plugins) - PkHex Automated Modifications 
 
@@ -54,8 +26,8 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Kwsch** - *Creation of PkHex* - [Kwsch](https://github.com/kwsch/PKHeX)
-* **architdate** - *Creation of AutoLegalityMod* - [architdate](https://github.com/architdate)
+* **Kwsch** - *Creation of [PkHex](https://github.com/kwsch/PKHeX)* - [Kwsch](https://github.com/kwsch)
+* **architdate** - *Creation of [AutoLegalityMod](https://github.com/architdate/PKHeX-Plugins)* - [architdate](https://github.com/architdate)
 * **DevYukine** - *Initial work* - [DevYukine](https://github.com/DevYukine)
 
 See also the list of [contributors](https://github.com/Pokegen/Pokegen.PkHex/contributors) who participated in this project.
