@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace Pokégen.PkHex.Util
+namespace Pokégen.PkHex.Util;
+
+public static class LoggingUtil
 {
-	public static class LoggingUtil
-	{
-		public static bool IsDevelopment
-			=> Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
-	}
+	public static bool IsDevelopment
+		=> Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
 }
