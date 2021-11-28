@@ -11,7 +11,7 @@ using Pokégen.PkHex.Services;
 
 namespace Pokégen.PkHex.Controllers
 {
-	[Route("/")]
+	[Route("/pokemon")]
 	[ApiController]
 	public class PokemonController : ControllerBase
 	{
