@@ -65,7 +65,7 @@ public class PokemonController : ControllerBase
 		if (pkm.IsLegal())
 			return NoContent();
 			
-		return BadRequest();
+		throw new LegalityException("Pokemon couldn't be legalized!");
 	}
 
 	/// <summary>
@@ -107,7 +107,7 @@ public class PokemonController : ControllerBase
 		if (pkm.IsLegal())
 			return NoContent();
 			
-		return BadRequest();
+		throw new LegalityException("Pokemon couldn't be legalized!");
 	}
 
 	/// <summary>
@@ -148,7 +148,7 @@ public class PokemonController : ControllerBase
 		if (pkm.IsLegal())
 			return NoContent();
 			
-		return BadRequest();
+		throw new LegalityException("Pokemon couldn't be legalized!");
 	}
 
 	private async Task<FileContentResult> ReturnPokemonFile(PKM pkm)
