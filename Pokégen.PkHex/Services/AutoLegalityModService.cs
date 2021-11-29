@@ -24,8 +24,15 @@ public class AutoLegalityModService : IHostedService
 	public Task StopAsync(CancellationToken cancellationToken) 
 		=> Task.CompletedTask;
 
-	public ITrainerInfo GetTrainerInfo(int gen) 
-		=> TrainerSettings.GetSavedTrainerData(gen);
+	public ITrainerInfo GetTrainerInfo<T>() where T : PKM, new()
+	{
+		if (typeof(T) == typeof(PK8))
+			return TrainerSettings.GetSavedTrainerData(GameVersion.SWSH, 8);
+		if (typeof(T) == typeof(PB8))
+			return TrainerSettings.GetSavedTrainerData(GameVersion.BDSP, 8);
+
+		throw new ArgumentException("Type does not have a recognized trainer fetch.", typeof(T).Name);
+	}
 
 	private async Task InitializeAsync(CancellationToken cancellationToken)
 	{

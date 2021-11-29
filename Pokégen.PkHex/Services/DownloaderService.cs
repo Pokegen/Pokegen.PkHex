@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using PKHeX.Core;
 using Pokégen.PkHex.Exceptions;
+using Pokégen.PkHex.Models;
 
 namespace Pokégen.PkHex.Services;
 
@@ -15,7 +16,7 @@ public class DownloaderService
 	public DownloaderService(HttpClient httpClient)
 		=> HttpClient = httpClient;
 		
-	public async Task<PKM> DownloadPkmAsync(Uri uri, long? length)
+	public async Task<PKM> DownloadPkmAsync(Uri uri, long? length, SupportedGames wantedGame)
 	{
 		long? size = null;
 		if (length != null) size = (long) length;
@@ -51,6 +52,10 @@ public class DownloaderService
 		if (pkm == null)
 			throw new DownloadException("Invalid pkm attachment");
 
-		return PKMConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm;
+		return wantedGame switch {
+			SupportedGames.Swsh => PKMConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm,
+			SupportedGames.Bdsp => PKMConverter.ConvertToType(pkm, typeof(PB8), out _) ?? pkm,
+			_ => throw new ArgumentOutOfRangeException(nameof(wantedGame), wantedGame, null)
+		};
 	}
 }
