@@ -49,6 +49,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<AutoLegalityModService>();
 builder.Services.AddHostedService(provider => provider.GetService<AutoLegalityModService>());
 builder.Services.AddSingleton<DownloaderService>();
+builder.Services.AddSingleton<PokemonService>();
+builder.Services.AddSingleton<TrainerService>();
 builder.Services.AddSingleton<HttpClient>();
 			
 builder.Services.AddCors(options =>
