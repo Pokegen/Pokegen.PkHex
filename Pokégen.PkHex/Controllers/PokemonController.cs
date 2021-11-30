@@ -152,7 +152,10 @@ public class PokemonController : ControllerBase
 	}
 
 	private async Task<FileContentResult> ReturnPokemonFile(PKM pkm)
-		=> File(await PokemonService.CheckLegalAndGetBytes(pkm), MediaTypeNames.Application.Octet);
+	{
+		Response.Headers.Add("X-Pokemon-Species", ((Species) pkm.Species).ToString());
+		return File(await PokemonService.CheckLegalAndGetBytes(pkm), MediaTypeNames.Application.Octet);
+	}
 
 	private static SupportedGames GetGameFromString(string game)
 	{
