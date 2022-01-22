@@ -45,7 +45,6 @@ builder.Host.UseSerilog((_, _, loggerConfiguration) =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<AutoLegalityModService>();
 builder.Services.AddHostedService(provider => provider.GetService<AutoLegalityModService>());
 builder.Services.AddSingleton<DownloaderService>();
@@ -63,8 +62,6 @@ builder.Services.AddCors(options =>
 	);
 });
 
-builder.Services.AddCors();
-			
 builder.Services.UseExceptionBasedErrorHandling();
 
 builder.Services.AddSwaggerGen(c =>
