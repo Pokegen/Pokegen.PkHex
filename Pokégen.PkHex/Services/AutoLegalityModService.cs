@@ -75,10 +75,20 @@ public class AutoLegalityModService : IHostedService
 
 		for (var i = 1; i < PKX.Generation + 1; i++)
 		{
-			var fallback = GetFallbackBlank(i);
-			var exist = TrainerSettings.GetSavedTrainerData(i, fallback);
-			if (ReferenceEquals(exist, fallback))
-				TrainerSettings.Register(fallback);
+			var versions = GameUtil.GetVersionsInGeneration(i, PKX.Generation);
+			foreach (var v in versions)
+			{
+				var fallback = new SimpleTrainerInfo(v)
+				{
+					Language = (int)language,
+					TID = trainerId,
+					SID = secretId,
+					OT = ot,
+				};
+				var exist = TrainerSettings.GetSavedTrainerData(v, i, fallback);
+				if (exist is SimpleTrainerInfo)
+					TrainerSettings.Register(fallback);
+			}
 		}
 
 		var trainer = TrainerSettings.GetSavedTrainerData(PKX.Generation);
