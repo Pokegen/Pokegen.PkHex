@@ -60,8 +60,8 @@ public class PokemonService
 		return Task.FromResult(pkm);
 	}
 
-	public Task<byte[]> CheckLegalAndGetBytes(PKM pkm) 
+	public Task<byte[]> CheckLegalAndGetBytes(PKM pkm, bool encrypted)
 		=> !pkm.IsLegal() 
 			? Task.FromException<byte[]>(new LegalityException("Pokemon couldn't be legalized!")) 
-			: Task.FromResult(pkm.Data);
+			: Task.FromResult(encrypted ? pkm.EncryptedPartyData : pkm.DecryptedPartyData);
 }

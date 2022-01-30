@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -19,6 +20,9 @@ public class PokemonController : ControllerBase
 	private PokemonService PokemonService { get; }
 		
 	private DownloaderService DownloaderService { get; }
+
+	private bool IsEncryptionWanted 
+		=> (Request.Headers["X-Pokemon-Encrypted"].FirstOrDefault() ?? "").ToLower() == "true";
 
 	public PokemonController(PokemonService pokemonService, DownloaderService downloaderService)
 	{
@@ -43,7 +47,7 @@ public class PokemonController : ControllerBase
 	{
 		var pkm = await PokemonService.GetPokemonFromShowdown(body.ShowdownSet, GetGameFromString(game));
 
-		return await ReturnPokemonFile(pkm);
+		return await ReturnPokemonFile(pkm, IsEncryptionWanted);
 	}
 
 	/// <summary>
@@ -85,7 +89,7 @@ public class PokemonController : ControllerBase
 	{
 		var pkm = await DownloaderService.DownloadPkmAsync(new Uri(url), size, GetGameFromString(game));
 
-		return await ReturnPokemonFile(pkm);
+		return await ReturnPokemonFile(pkm, IsEncryptionWanted);
 	}
 
 	/// <summary>
@@ -125,7 +129,7 @@ public class PokemonController : ControllerBase
 	{
 		var pkm = await PokemonService.GetPokemonFromFormFileAsync(file, GetGameFromString(game));
 			
-		return await ReturnPokemonFile(pkm);
+		return await ReturnPokemonFile(pkm, IsEncryptionWanted);
 	}
 
 	/// <summary>
@@ -151,11 +155,11 @@ public class PokemonController : ControllerBase
 		throw new LegalityException("Pokemon couldn't be legalized!");
 	}
 
-	private async Task<FileContentResult> ReturnPokemonFile(PKM pkm)
+	private async Task<FileContentResult> ReturnPokemonFile(PKM pkm, bool encrypted = false)
 	{
 		Response.Headers.Add("X-Pokemon-Species", ((Species) pkm.Species).ToString());
 		Response.Headers.Add("X-Pokemon-Checksum", pkm.Checksum.ToString());
-		return File(await PokemonService.CheckLegalAndGetBytes(pkm), MediaTypeNames.Application.Octet);
+		return File(await PokemonService.CheckLegalAndGetBytes(pkm, encrypted), MediaTypeNames.Application.Octet);
 	}
 
 	private static SupportedGames GetGameFromString(string game)
