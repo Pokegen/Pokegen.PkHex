@@ -154,6 +154,7 @@ public class PokemonController : ControllerBase
 	private async Task<FileContentResult> ReturnPokemonFile(PKM pkm)
 	{
 		Response.Headers.Add("X-Pokemon-Species", ((Species) pkm.Species).ToString());
+		Response.Headers.Add("X-Pokemon-Checksum", pkm.Checksum.ToString());
 		return File(await PokemonService.CheckLegalAndGetBytes(pkm), MediaTypeNames.Application.Octet);
 	}
 
