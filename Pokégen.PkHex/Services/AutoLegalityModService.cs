@@ -65,16 +65,6 @@ public class AutoLegalityModService : IHostedService
 		if (!Enum.TryParse<LanguageID>(languageName, true, out var language))
 			throw new Exception($"Invalid default language {languageName}");
 
-		SaveFile GetFallbackBlank(int generation)
-		{
-			var blankSav = SaveUtil.GetBlankSAV(generation, ot);
-			blankSav.Language = (int) language;
-			blankSav.TID = trainerId;
-			blankSav.SID = secretId;
-			blankSav.OT = ot;
-			return blankSav;
-		}
-
 		for (var i = 1; i < PKX.Generation + 1; i++)
 		{
 			var versions = GameUtil.GetVersionsInGeneration(i, PKX.Generation);
