@@ -31,6 +31,11 @@ public class TrainerService
 				saveFile = bdspSave;
 				break;
 			}
+			case "pla":
+				var save = new SAV8LA();
+				fileData.CopyTo(save.MyStatus.Data);
+				saveFile = save;
+				break;
 			default:
 				throw new Exceptions.NotImplementedException("Requested Game not implemented yet");
 		}

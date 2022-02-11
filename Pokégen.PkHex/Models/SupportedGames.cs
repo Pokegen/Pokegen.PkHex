@@ -8,11 +8,16 @@ public enum SupportedGames
 	/// <summary>
 	/// Pokemon Sword & Shield
 	/// </summary>
-	Swsh,
+	SWSH,
 	
 	
 	/// <summary>
 	/// Pokemon Brilliant Diamond & Shining Pearl
 	/// </summary>
-	Bdsp
+	BDSP,
+	
+	/// <summary>
+	/// Pokemon Legends Arceus
+	/// </summary>
+	PLA,
 }

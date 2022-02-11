@@ -26,8 +26,9 @@ public class PokemonService
 		if (pokemon == null) throw new PokemonParseException("Couldn't parse provided file to any possible pokemon save file format.");
 
 		var correctGame = game switch {
-			SupportedGames.Swsh => pokemon is PK8,
-			SupportedGames.Bdsp => pokemon is PB8,
+			SupportedGames.SWSH => pokemon is PK8,
+			SupportedGames.BDSP => pokemon is PB8,
+			SupportedGames.PLA => pokemon is PA8,
 			_ => throw new ArgumentOutOfRangeException(nameof(game), game, null)
 		};
 
@@ -48,14 +49,21 @@ public class PokemonService
 
 		var sav = game switch
 		{
-			SupportedGames.Swsh => AutoLegalityModService.GetTrainerInfo<PK8>(),
-			SupportedGames.Bdsp => AutoLegalityModService.GetTrainerInfo<PB8>(),
+			SupportedGames.SWSH => AutoLegalityModService.GetTrainerInfo<PK8>(),
+			SupportedGames.BDSP => AutoLegalityModService.GetTrainerInfo<PB8>(),
+			SupportedGames.PLA => AutoLegalityModService.GetTrainerInfo<PA8>(),
 			_ => throw new ArgumentOutOfRangeException(nameof(game))
 		};
 
 		var pkm = sav.GetLegal(template, out _);
 
-		pkm = PKMConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm;
+		pkm = game switch
+		{
+			SupportedGames.SWSH => PKMConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm,
+			SupportedGames.BDSP => PKMConverter.ConvertToType(pkm, typeof(PB8), out _) ?? pkm,
+			SupportedGames.PLA => PKMConverter.ConvertToType(pkm, typeof(PA8), out _) ?? pkm,
+			_ => throw new ArgumentOutOfRangeException(nameof(game), game, null)
+		};
 
 		return Task.FromResult(pkm);
 	}

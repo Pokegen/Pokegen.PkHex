@@ -53,8 +53,9 @@ public class DownloaderService
 			throw new DownloadException("Invalid pkm attachment");
 
 		return wantedGame switch {
-			SupportedGames.Swsh => PKMConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm,
-			SupportedGames.Bdsp => PKMConverter.ConvertToType(pkm, typeof(PB8), out _) ?? pkm,
+			SupportedGames.SWSH => PKMConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm,
+			SupportedGames.BDSP => PKMConverter.ConvertToType(pkm, typeof(PB8), out _) ?? pkm,
+			SupportedGames.PLA => PKMConverter.ConvertToType(pkm, typeof(PA8), out _) ?? pkm,
 			_ => throw new ArgumentOutOfRangeException(nameof(wantedGame), wantedGame, null)
 		};
 	}

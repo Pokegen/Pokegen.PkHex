@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mime;
@@ -158,7 +158,7 @@ public class PokemonController : ControllerBase
 	private async Task<FileContentResult> ReturnPokemonFile(PKM pkm, bool encrypted = false)
 	{
 		Response.Headers.Add("X-Pokemon-Species", ((Species) pkm.Species).ToString());
-		Response.Headers.Add("X-Pokemon-Checksum", pkm.Checksum.ToString());
+		if (pkm is ISanityChecksum sanityChecksum) Response.Headers.Add("X-Pokemon-Checksum", sanityChecksum.Checksum.ToString());
 		return File(await PokemonService.CheckLegalAndGetBytes(pkm, encrypted), MediaTypeNames.Application.Octet);
 	}
 
