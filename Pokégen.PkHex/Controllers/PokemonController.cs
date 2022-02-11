@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mime;
@@ -160,6 +160,9 @@ public class PokemonController : ControllerBase
 		Response.Headers.Add("X-Pokemon-Species", ((Species) pkm.Species).ToString());
 		Response.Headers.Add("X-Pokemon-Language", ((LanguageID) pkm.Language).ToString());
 		if (pkm is ISanityChecksum sanityChecksum) Response.Headers.Add("X-Pokemon-Checksum", sanityChecksum.Checksum.ToString());
+
+		pkm.ResetPartyStats();
+
 		return File(await PokemonService.CheckLegalAndGetBytes(pkm, encrypted), MediaTypeNames.Application.Octet);
 	}
 
