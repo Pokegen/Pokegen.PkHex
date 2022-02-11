@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using PKHeX.Core;
 using Pokégen.PkHex.Models;
 using Pokégen.PkHex.Services;
+using Pokégen.PkHex.Util;
 
 namespace Pokégen.PkHex.Controllers;
 
@@ -32,7 +33,7 @@ public class TrainerController : ControllerBase
 	[HttpPost("{game}")]
 	public async Task<IActionResult> GetTrainerAsync([FromForm, Required] IFormFile data, string game)
 	{
-		var trainerInfo = await TrainerService.GetTrainerInfo(data, game);
+		var trainerInfo = await TrainerService.GetTrainerInfo(data, SupportGameUtil.GetFromString(game));
 
 		return Ok(new TrainerInfoResponse(trainerInfo.TID, 
 			trainerInfo.SID,

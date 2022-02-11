@@ -10,6 +10,7 @@ using Pokégen.PkHex.Exceptions;
 using Pokégen.PkHex.Extensions;
 using Pokégen.PkHex.Models;
 using Pokégen.PkHex.Services;
+using Pokégen.PkHex.Util;
 
 namespace Pokégen.PkHex.Controllers;
 
@@ -45,7 +46,7 @@ public class PokemonController : ControllerBase
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<IActionResult> GetPokemonFromShowdown([FromRoute] string game, [FromBody, Required] PokemonShowdownRequest body)
 	{
-		var pkm = await PokemonService.GetPokemonFromShowdown(body.ShowdownSet, GetGameFromString(game));
+		var pkm = await PokemonService.GetPokemonFromShowdown(body.ShowdownSet, SupportGameUtil.GetFromString(game));
 
 		return await ReturnPokemonFile(pkm, IsEncryptionWanted);
 	}
@@ -64,7 +65,7 @@ public class PokemonController : ControllerBase
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<IActionResult> CheckShowdownLegality([FromRoute] string game, [FromBody, Required] PokemonShowdownRequest body)
 	{
-		var pkm = await PokemonService.GetPokemonFromShowdown(body.ShowdownSet, GetGameFromString(game));
+		var pkm = await PokemonService.GetPokemonFromShowdown(body.ShowdownSet, SupportGameUtil.GetFromString(game));
 
 		if (pkm.IsLegal())
 			return NoContent();
@@ -87,7 +88,7 @@ public class PokemonController : ControllerBase
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<IActionResult> GetPokemonFromUrl([FromRoute] string game, [FromQuery, Required] string url, [FromQuery] long? size)
 	{
-		var pkm = await DownloaderService.DownloadPkmAsync(new Uri(url), size, GetGameFromString(game));
+		var pkm = await DownloaderService.DownloadPkmAsync(new Uri(url), size, SupportGameUtil.GetFromString(game));
 
 		return await ReturnPokemonFile(pkm, IsEncryptionWanted);
 	}
@@ -106,7 +107,7 @@ public class PokemonController : ControllerBase
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<IActionResult> CheckUrlLegality([FromRoute] string game, [FromQuery, Required] string url, [FromQuery] long? size)
 	{
-		var pkm = await DownloaderService.DownloadPkmAsync(new Uri(url), size, GetGameFromString(game));
+		var pkm = await DownloaderService.DownloadPkmAsync(new Uri(url), size, SupportGameUtil.GetFromString(game));
 
 		if (pkm.IsLegal())
 			return NoContent();
@@ -127,7 +128,7 @@ public class PokemonController : ControllerBase
 	[RequestFormLimits(MultipartBodyLengthLimit = 344)]
 	public async Task<IActionResult> GetPokemonFromFile([FromRoute] string game, [FromForm, Required] IFormFile file)
 	{
-		var pkm = await PokemonService.GetPokemonFromFormFileAsync(file, GetGameFromString(game));
+		var pkm = await PokemonService.GetPokemonFromFormFileAsync(file, SupportGameUtil.GetFromString(game));
 			
 		return await ReturnPokemonFile(pkm, IsEncryptionWanted);
 	}
@@ -147,7 +148,7 @@ public class PokemonController : ControllerBase
 	[RequestFormLimits(MultipartBodyLengthLimit = 344)]
 	public async Task<IActionResult> CheckFileLegality([FromRoute] string game, [FromForm, Required] IFormFile file)
 	{
-		var pkm = await PokemonService.GetPokemonFromFormFileAsync(file, GetGameFromString(game));
+		var pkm = await PokemonService.GetPokemonFromFormFileAsync(file, SupportGameUtil.GetFromString(game));
 
 		if (pkm.IsLegal())
 			return NoContent();
@@ -164,17 +165,5 @@ public class PokemonController : ControllerBase
 		pkm.ResetPartyStats();
 
 		return File(await PokemonService.CheckLegalAndGetBytes(pkm, encrypted), MediaTypeNames.Application.Octet);
-	}
-
-	private static SupportedGame GetGameFromString(string game)
-	{
-		try
-		{
-			return Enum.Parse<SupportedGame>(game, true);
-		}
-		catch (ArgumentException)
-		{
-			throw new OutOfRangeException("Game is not a supported game!");
-		}
 	}
 }

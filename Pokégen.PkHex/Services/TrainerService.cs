@@ -2,12 +2,14 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using PKHeX.Core;
+using Pokégen.PkHex.Exceptions;
+using Pokégen.PkHex.Models;
 
 namespace Pokégen.PkHex.Services;
 
 public class TrainerService
 {
-	public async Task<ITrainerInfo> GetTrainerInfo(IFormFile data, string game)
+	public async Task<ITrainerInfo> GetTrainerInfo(IFormFile data, SupportedGame game)
 	{
 		ITrainerInfo saveFile;
 		
@@ -15,29 +17,29 @@ public class TrainerService
 		await data.CopyToAsync(fileStream);
 		var fileData = fileStream.ToArray();
 		
-		switch (game.ToLower())
+		switch (game)
 		{
-			case "swsh":
+			case SupportedGame.SWSH:
 			{
 				var sav8Swsh = new SAV8SWSH();
 				fileData.CopyTo(sav8Swsh.MyStatus.Data);
 				saveFile = sav8Swsh;
 				break;
 			}
-			case "bdsp":
+			case SupportedGame.BDSP:
 			{
 				var bdspSave = new SAV8BS();
 				fileData.CopyTo(bdspSave.MyStatus.Data);
 				saveFile = bdspSave;
 				break;
 			}
-			case "pla":
+			case SupportedGame.PLA:
 				var save = new SAV8LA();
 				fileData.CopyTo(save.MyStatus.Data);
 				saveFile = save;
 				break;
 			default:
-				throw new Exceptions.NotImplementedException("Requested Game not implemented yet");
+				throw new NotImplementedException("Requested Game not implemented yet");
 		}
 
 		return saveFile;
