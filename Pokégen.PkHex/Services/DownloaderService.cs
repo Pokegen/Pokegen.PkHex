@@ -50,7 +50,7 @@ public class DownloaderService
 			
 		var pkm = PKMConverter.GetPKMfromBytes(buffer, fileName.Contains("pk6") ? 6 : 7);
 		if (pkm == null)
-			throw new DownloadException("Invalid pkm attachment");
+			throw new DownloadException("Invalid pkm file");
 
 		return wantedGame switch {
 			SupportedGame.SWSH => PKMConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm,
