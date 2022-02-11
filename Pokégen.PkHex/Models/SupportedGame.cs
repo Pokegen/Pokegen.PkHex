@@ -3,7 +3,7 @@ namespace Pokégen.PkHex.Models;
 /// <summary>
 /// Supported Pokemon games of this Service
 /// </summary>
-public enum SupportedGames
+public enum SupportedGame
 {
 	/// <summary>
 	/// Pokemon Sword & Shield

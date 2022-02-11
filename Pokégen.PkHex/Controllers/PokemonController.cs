@@ -166,11 +166,11 @@ public class PokemonController : ControllerBase
 		return File(await PokemonService.CheckLegalAndGetBytes(pkm, encrypted), MediaTypeNames.Application.Octet);
 	}
 
-	private static SupportedGames GetGameFromString(string game)
+	private static SupportedGame GetGameFromString(string game)
 	{
 		try
 		{
-			return Enum.Parse<SupportedGames>(game, true);
+			return Enum.Parse<SupportedGame>(game, true);
 		}
 		catch (ArgumentException)
 		{

@@ -16,7 +16,7 @@ public class PokemonService
 	public PokemonService(AutoLegalityModService autoLegalityModService) 
 		=> AutoLegalityModService = autoLegalityModService;
 
-	public async Task<PKM> GetPokemonFromFormFileAsync(IFormFile file, SupportedGames game)
+	public async Task<PKM> GetPokemonFromFormFileAsync(IFormFile file, SupportedGame game)
 	{
 		await using var stream = new MemoryStream();
 		await file.CopyToAsync(stream);
@@ -26,9 +26,9 @@ public class PokemonService
 		if (pokemon == null) throw new PokemonParseException("Couldn't parse provided file to any possible pokemon save file format.");
 
 		var correctGame = game switch {
-			SupportedGames.SWSH => pokemon is PK8,
-			SupportedGames.BDSP => pokemon is PB8,
-			SupportedGames.PLA => pokemon is PA8,
+			SupportedGame.SWSH => pokemon is PK8,
+			SupportedGame.BDSP => pokemon is PB8,
+			SupportedGame.PLA => pokemon is PA8,
 			_ => throw new ArgumentOutOfRangeException(nameof(game), game, null)
 		};
 
@@ -37,7 +37,7 @@ public class PokemonService
 		return pokemon;
 	}
 
-	public Task<PKM> GetPokemonFromShowdown(string showdownSet, SupportedGames game)
+	public Task<PKM> GetPokemonFromShowdown(string showdownSet, SupportedGame game)
 	{
 		var set = new ShowdownSet(showdownSet);
 		var template = set.GetTemplate();
@@ -49,9 +49,9 @@ public class PokemonService
 
 		var sav = game switch
 		{
-			SupportedGames.SWSH => AutoLegalityModService.GetTrainerInfo<PK8>(),
-			SupportedGames.BDSP => AutoLegalityModService.GetTrainerInfo<PB8>(),
-			SupportedGames.PLA => AutoLegalityModService.GetTrainerInfo<PA8>(),
+			SupportedGame.SWSH => AutoLegalityModService.GetTrainerInfo<PK8>(),
+			SupportedGame.BDSP => AutoLegalityModService.GetTrainerInfo<PB8>(),
+			SupportedGame.PLA => AutoLegalityModService.GetTrainerInfo<PA8>(),
 			_ => throw new ArgumentOutOfRangeException(nameof(game))
 		};
 
@@ -59,9 +59,9 @@ public class PokemonService
 
 		pkm = game switch
 		{
-			SupportedGames.SWSH => PKMConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm,
-			SupportedGames.BDSP => PKMConverter.ConvertToType(pkm, typeof(PB8), out _) ?? pkm,
-			SupportedGames.PLA => PKMConverter.ConvertToType(pkm, typeof(PA8), out _) ?? pkm,
+			SupportedGame.SWSH => PKMConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm,
+			SupportedGame.BDSP => PKMConverter.ConvertToType(pkm, typeof(PB8), out _) ?? pkm,
+			SupportedGame.PLA => PKMConverter.ConvertToType(pkm, typeof(PA8), out _) ?? pkm,
 			_ => throw new ArgumentOutOfRangeException(nameof(game), game, null)
 		};
 

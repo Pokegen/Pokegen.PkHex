@@ -16,7 +16,7 @@ public class DownloaderService
 	public DownloaderService(HttpClient httpClient)
 		=> HttpClient = httpClient;
 		
-	public async Task<PKM> DownloadPkmAsync(Uri uri, long? length, SupportedGames wantedGame)
+	public async Task<PKM> DownloadPkmAsync(Uri uri, long? length, SupportedGame wantedGame)
 	{
 		long? size = null;
 		if (length != null) size = (long) length;
@@ -53,9 +53,9 @@ public class DownloaderService
 			throw new DownloadException("Invalid pkm attachment");
 
 		return wantedGame switch {
-			SupportedGames.SWSH => PKMConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm,
-			SupportedGames.BDSP => PKMConverter.ConvertToType(pkm, typeof(PB8), out _) ?? pkm,
-			SupportedGames.PLA => PKMConverter.ConvertToType(pkm, typeof(PA8), out _) ?? pkm,
+			SupportedGame.SWSH => PKMConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm,
+			SupportedGame.BDSP => PKMConverter.ConvertToType(pkm, typeof(PB8), out _) ?? pkm,
+			SupportedGame.PLA => PKMConverter.ConvertToType(pkm, typeof(PA8), out _) ?? pkm,
 			_ => throw new ArgumentOutOfRangeException(nameof(wantedGame), wantedGame, null)
 		};
 	}
