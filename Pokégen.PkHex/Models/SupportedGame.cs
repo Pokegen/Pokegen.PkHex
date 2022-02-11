@@ -9,8 +9,7 @@ public enum SupportedGame
 	/// Pokemon Sword & Shield
 	/// </summary>
 	SWSH,
-	
-	
+
 	/// <summary>
 	/// Pokemon Brilliant Diamond & Shining Pearl
 	/// </summary>
