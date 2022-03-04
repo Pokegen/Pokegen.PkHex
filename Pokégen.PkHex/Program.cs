@@ -27,7 +27,7 @@ builder.Host.UseSerilog((_, _, loggerConfiguration) =>
 		.Enrich.FromLogContext()
 		.WriteTo.Console(
 			outputTemplate:
-			"[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] [{ThreadName}] {Message:lj}\n{Exception}",
+			"{Timestamp:MM/dd HH:mm:ss} {Message:lj}\n{Exception}",
 			theme: SystemConsoleTheme.Colored)
 		.WriteTo.Sentry(o =>
 		{
@@ -66,11 +66,11 @@ builder.Services.UseExceptionBasedErrorHandling();
 
 builder.Services.AddSwaggerGen(c =>
 {
-	c.SwaggerDoc("v1", new OpenApiInfo
+	c.SwaggerDoc("v2", new OpenApiInfo
 	{
-		Title = "Pokégen.PkHex",
-		Version = "v1",
-		Description = "REST API providing PkHex & ALM functionality",
+		Title = "Pokégen.PKHeX",
+		Version = "v2",
+		Description = "REST API providing PKHEX & ALM functionality",
 		Contact = new OpenApiContact
 		{
 			Name = "DevYukine",
@@ -92,7 +92,7 @@ if (app.Environment.IsDevelopment())
 	
 	app.UseDeveloperExceptionPage();
 	app.UseSwagger();
-	app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pokégen.PkHex v1"));
+	app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pokégen.PKHEX v2"));
 }
 			
 app.UseSerilogRequestLogging();

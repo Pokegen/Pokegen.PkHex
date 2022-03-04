@@ -6,6 +6,11 @@ namespace Pokégen.PkHex.Models;
 public enum SupportedGame
 {
 	/// <summary>
+	/// Pokemon Let's Go Pikachu & Eevee
+	/// </summary>
+	LGPE,
+	
+	/// <summary>
 	/// Pokemon Sword & Shield
 	/// </summary>
 	SWSH,

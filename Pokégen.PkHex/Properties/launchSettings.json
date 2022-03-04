@@ -25,9 +25,9 @@
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
 		  "ASPNETCORE_ENVIRONMENT": "Development",
-		  "PKHEX_DEFAULT_OT": "PkHex",
-		  "PKHEX_DEFAULT_TID": "123456",
-		  "PKHEX_DEFAULT_SID": "1234",
+		  "PKHEX_DEFAULT_OT": "SysBot.py",
+		  "PKHEX_DEFAULT_TID": "358524",
+		  "PKHEX_DEFAULT_SID": "2283",
 		  "PKHEX_DEFAULT_LANGUAGE": "English"
       }
     }

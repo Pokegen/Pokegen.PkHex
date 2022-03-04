@@ -18,8 +18,8 @@ public class DownloaderService
 		
 	public async Task<PKM> DownloadPkmAsync(Uri uri, long? length, SupportedGame wantedGame)
 	{
-		long? size = null;
-		if (length != null) size = (long) length;
+		long? SIZE = null;
+		if (length != null) SIZE = (long) length;
 		else
 		{
 			var request = new HttpRequestMessage
@@ -35,12 +35,12 @@ public class DownloaderService
 			var first = values?.First();
 
 			if (first != null)
-				size = long.Parse(first);
+				SIZE = long.Parse(first);
 		}
 
-		if (size != null)
+		if (SIZE != null)
 		{
-			if (!PKX.IsPKM((long) size))
+			if (!PKX.IsPKM((long) SIZE))
 				throw new DownloadException("Invalid size");
 		}
 
@@ -53,6 +53,7 @@ public class DownloaderService
 			throw new DownloadException("Invalid pkm file");
 
 		return wantedGame switch {
+			SupportedGame.LGPE => PKMConverter.ConvertToType(pkm, typeof(PB7), out _) ?? pkm,
 			SupportedGame.SWSH => PKMConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm,
 			SupportedGame.BDSP => PKMConverter.ConvertToType(pkm, typeof(PB8), out _) ?? pkm,
 			SupportedGame.PLA => PKMConverter.ConvertToType(pkm, typeof(PA8), out _) ?? pkm,

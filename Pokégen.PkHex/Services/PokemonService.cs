@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using PKHeX.Core;
+using PKHeX.Core.AutoMod;
 using Pokégen.PkHex.Exceptions;
 using Pokégen.PkHex.Extensions;
 using Pokégen.PkHex.Models;
@@ -26,6 +27,7 @@ public class PokemonService
 		if (pokemon == null) throw new PokemonParseException("Couldn't parse provided file to any possible pokemon save file format.");
 
 		var correctGame = game switch {
+			SupportedGame.LGPE => pokemon is PB7,
 			SupportedGame.SWSH => pokemon is PK8,
 			SupportedGame.BDSP => pokemon is PB8,
 			SupportedGame.PLA => pokemon is PA8,
@@ -40,15 +42,11 @@ public class PokemonService
 	public Task<PKM> GetPokemonFromShowdown(string showdownSet, SupportedGame game)
 	{
 		var set = new ShowdownSet(showdownSet);
-		var template = set.GetTemplate();
-
-		var invalidLines = set.InvalidLines;
-
-		if (invalidLines.Count != 0)
-			return Task.FromException<PKM>(new ShowdownException($"Unable to parse Showdown Set:\n{string.Join("\n", invalidLines)}"));
+		var template = new RegenTemplate(set);
 
 		var sav = game switch
 		{
+			SupportedGame.LGPE => SaveUtil.GetBlankSAV(GameVersion.GE, "SysBot.py"),
 			SupportedGame.SWSH => AutoLegalityModService.GetTrainerInfo<PK8>(),
 			SupportedGame.BDSP => AutoLegalityModService.GetTrainerInfo<PB8>(),
 			SupportedGame.PLA => AutoLegalityModService.GetTrainerInfo<PA8>(),
@@ -59,6 +57,7 @@ public class PokemonService
 
 		pkm = game switch
 		{
+			SupportedGame.LGPE => PKMConverter.ConvertToType(pkm, typeof(PB7), out _) ?? pkm,
 			SupportedGame.SWSH => PKMConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm,
 			SupportedGame.BDSP => PKMConverter.ConvertToType(pkm, typeof(PB8), out _) ?? pkm,
 			SupportedGame.PLA => PKMConverter.ConvertToType(pkm, typeof(PA8), out _) ?? pkm,

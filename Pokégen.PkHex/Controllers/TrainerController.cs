@@ -26,7 +26,7 @@ public class TrainerController : ControllerBase
 	/// <summary>
 	/// Gets Trainer data from the data block
 	/// </summary>
-	/// <param name="data">The data block holding the MyStatus block</param>
+	/// <param name="data">The data block holding the MyStatus/Status block</param>
 	/// <param name="game">The game of this data block</param>
 	/// <returns>Trainer information</returns>
 	/// <exception cref="NotImplementedException">If the specified Game is not yet implemented</exception>

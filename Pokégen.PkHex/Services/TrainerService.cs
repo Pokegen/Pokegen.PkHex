@@ -19,6 +19,11 @@ public class TrainerService
 		
 		switch (game)
 		{
+			case SupportedGame.LGPE:
+			{
+				saveFile = new SAV7b();
+				break;
+			}
 			case SupportedGame.SWSH:
 			{
 				var sav8Swsh = new SAV8SWSH();

@@ -5,6 +5,5 @@ namespace Pokégen.PkHex.Extensions;
 
 public static class ShowdownSetExtensions
 {
-	public static IBattleTemplate GetTemplate(this ShowdownSet set) 
-		=> new RegenTemplate(set);
+    public static IBattleTemplate GetTemplate(ShowdownSet set) => new RegenTemplate(set);
 }
