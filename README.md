@@ -1,38 +1,38 @@
-# Pokégen.PkHex
+# PKHeX-API
+![License](https://img.shields.io/badge/license-GNU%20Affero%20General%20Public%20License%20Version%203%20or%20Later-blue.svg)
 
-ASP.Net Core REST API providing PKHeX & ALM functionality
+ASP.Net Core REST API providing PKHeX & ALM functionality.
 
-## Getting Started
+This API currently supports creating Pokémon files using showdown sets for the following games:
+- LGPE
+- SWSH
+- BDSP
+- PLA
 
-This API currently supports creating pokemon files (.pk*, .pb* etc.) from Showdown Sets via [ALM](https://github.com/architdate/PKHeX-Plugins), checking legality of Showdown Sets/Pokemon files via [PKHeX](https://github.com/kwsch/PKHeX) & getting trainer data from the data block!
+# Deployment
+[Railway.app](https://railway.app/) is a platform where you can host and deploy apps in minutes. Clone this project as a private repo, click on "start a new project" on the railway dashboard, followed by "deploy from repo".
 
-For a full overview of all routes you want to set the `ASPNETCORE_ENVIRONMENT` environment variable to `Development` which should expose an Swagger (OpenAPI integration) page at /swagger/index.html showing all routes and parameters.
+## Variables
+These are needed variables that must be labeled for the project to deploy:
+```
+ASPNETCORE_ENVIRONMENT=Development
+PKHEX_DEFAULT_LANGUAGE=English
+PKHEX_DEFAULT_OT=SysBot.py
+PKHEX_DEFAULT_SID=3383
+PKHEX_DEFAULT_TID=258339
+PORT=80
+```
 
-## Deployment
-TBD
+Note: OT, SID, and TID are customizable as long as they are within parameters.
 
-## Built With
+## Swagger
+Add `/swagger/index.html` to the end of your deployment to see an online interface for your instance.
 
-* [ASP.NET Core](https://dotnet.microsoft.com/learn/aspnet/what-is-aspnet-core) - The web framework used
-* [Nuget](https://www.nuget.org/) - Dependency Management
-* [Serilog](https://serilog.net/) - The logging framework used
-* [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) - Swagger (OpenAPI) integration
-* [PKHeX](https://github.com/kwsch/PKHeX) - Pokemon Save File Editor
-* [AutoLegalityMod](https://github.com/architdate/PKHeX-Plugins) - PKHeX Automated Modifications 
+## Public API Link
+- [For development](https://pkhex-api-test-production.up.railway.app)
+- [Online Swagger Interface](https://pkhex-api-test-production.up.railway.app/swagger/index.html)
 
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/Pokegen/Pokegen.PkHex/tags). 
-
-## Authors
-
-* **Kwsch** - *Creation of [PKHeX](https://github.com/kwsch/PKHeX)* - [Kwsch](https://github.com/kwsch)
-* **architdate** - *Creation of [AutoLegalityMod](https://github.com/architdate/PKHeX-Plugins)* - [architdate](https://github.com/architdate)
-* **DevYukine** - *Initial work* - [DevYukine](https://github.com/DevYukine)
-* **6A** - *LGPE support* - [6A](https://github.com/6A-Realm)
-
-See also the list of [contributors](https://github.com/Pokegen/Pokegen.PkHex/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) file for details
+## Credits
+* [kwsch](https://github.com/kwsch) - developed PKHeX.Core
+* [architdate](https://github.com/architdate) - developed Auto Legality Mod
+* [DevYukine](https://github.com/DevYukine) - initial work for Pokegen.PkHex
