@@ -21,7 +21,8 @@ public class PokemonService
 		await using var stream = new MemoryStream();
 		await file.CopyToAsync(stream);
 
-		var pokemon = PKMConverter.GetPKMfromBytes(stream.GetBuffer(), file.FileName.Contains("pk6") ? 6 : 7);
+		var entityContext = EntityFileExtension.GetContextFromExtension(file.FileName);
+		var pokemon = EntityFormat.GetFromBytes(stream.GetBuffer(), entityContext);
 
 		if (pokemon == null) throw new PokemonParseException("Couldn't parse provided file to any possible pokemon save file format.");
 
@@ -59,9 +60,9 @@ public class PokemonService
 
 		pkm = game switch
 		{
-			SupportedGame.SWSH => PKMConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm,
-			SupportedGame.BDSP => PKMConverter.ConvertToType(pkm, typeof(PB8), out _) ?? pkm,
-			SupportedGame.PLA => PKMConverter.ConvertToType(pkm, typeof(PA8), out _) ?? pkm,
+			SupportedGame.SWSH => EntityConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm,
+			SupportedGame.BDSP => EntityConverter.ConvertToType(pkm, typeof(PB8), out _) ?? pkm,
+			SupportedGame.PLA => EntityConverter.ConvertToType(pkm, typeof(PA8), out _) ?? pkm,
 			_ => throw new ArgumentOutOfRangeException(nameof(game), game, null)
 		};
 
