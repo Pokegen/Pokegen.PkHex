@@ -46,20 +46,24 @@ public class AutoLegalityModService : IHostedService
 
 	private static void SetupSettings()
 	{
-		APILegality.SetAllLegalRibbons = true;
-		APILegality.SetMatchingBalls = true;
-		APILegality.ForceSpecifiedBall = true;
-		APILegality.UseXOROSHIRO = true;
-		APILegality.AllowTrainerOverride = true;
-		APILegality.AllowBatchCommands = true;
-		Legalizer.EnableEasterEggs = false;
+		APILegality.SetAllLegalRibbons = GetEnvAsBoolOrDefault("ALM_SET_ALL_LEGAL_RIBBONS", true);
+		APILegality.SetMatchingBalls = GetEnvAsBoolOrDefault("ALM_SET_MATCHING_BALLS", true);
+		APILegality.ForceSpecifiedBall = GetEnvAsBoolOrDefault("ALM_FORCE_SPECIFIC_BALL", true);
+		APILegality.UseXOROSHIRO = GetEnvAsBoolOrDefault("ALM_USE_XOROSHIRO", true);
+		APILegality.AllowTrainerOverride = GetEnvAsBoolOrDefault("ALM_ALLOW_TRAINER_OVERRIDE", true);
+		APILegality.AllowBatchCommands = GetEnvAsBoolOrDefault("ALM_ALLOW_BATCH_COMMAND", true);
+		APILegality.PrioritizeGame = GetEnvAsBoolOrDefault("ALM_PRIORITIZE_GAME", true);
+		APILegality.PrioritizeGameVersion= GetEnvAsEnumOrDefault<GameVersion>("ALM_PRIORITIZE_GAME_VERSION", GameVersion.Any);
+		APILegality.SetBattleVersion = GetEnvAsBoolOrDefault("ALM_SET_BATTLE_VERSION", false);
+		APILegality.Timeout = GetEnvAsIntOrDefault("ALM_TIMEOUT", 15);
+		Legalizer.EnableEasterEggs = GetEnvAsBoolOrDefault("ALM_ENABLE_EASTER_EGGS", false);
 	}
 
 	private static void InitializeTrainerDatabase()
 	{
 		var ot = GetEnvOrThrow("PKHEX_DEFAULT_OT");
-		var trainerId = int.Parse(GetEnvOrThrow("PKHEX_DEFAULT_TID"));
-		var secretId = int.Parse(GetEnvOrThrow("PKHEX_DEFAULT_SID"));
+		var trainerId = GetEnvAsIntOrThrow("PKHEX_DEFAULT_TID");
+		var secretId = GetEnvAsIntOrThrow("PKHEX_DEFAULT_SID");
 		var languageName = GetEnvOrThrow("PKHEX_DEFAULT_LANGUAGE");
 	        
 		if (!Enum.TryParse<LanguageID>(languageName, true, out var language))

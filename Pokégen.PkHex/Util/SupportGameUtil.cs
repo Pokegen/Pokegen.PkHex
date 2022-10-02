@@ -10,9 +10,9 @@ public static class SupportGameUtil
 	{
 		try
 		{
-			return Enum.Parse<SupportedGame>(game, true);
+			return EnumUtil.GetEnumValue<SupportedGame>(game);
 		}
-		catch (ArgumentException)
+		catch (ArgumentOutOfRangeException)
 		{
 			throw new OutOfRangeException("Game is not a supported game!");
 		}
