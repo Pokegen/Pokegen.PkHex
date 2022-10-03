@@ -31,50 +31,43 @@ public class TrainerService
 		{
 			case SupportedGame.RBY:
 			{
-				var save1Rby = new SAV1();
-				fileData.CopyTo(save1Rby.Data);
+				var save1Rby = new SAV1(fileData);
 				trainerInfo = save1Rby;
 				break;
 			}
 			case SupportedGame.GSC:
 			{
-				var save2Gsc = new SAV2();
-				fileData.CopyTo(save2Gsc.Data);
+				var save2Gsc = new SAV2(fileData);
 				trainerInfo = save2Gsc;
 				break;
 			}
 			case SupportedGame.RS:
 			{
-				var save3Rs = new SAV3RS();
-				fileData.CopyTo(save3Rs.Data);
+				var save3Rs = new SAV3RS(fileData);
 				trainerInfo = save3Rs;
 				break;
 			}
 			case SupportedGame.E:
 			{
-				var save3E = new SAV3E();
-				fileData.CopyTo(save3E.Data);
+				var save3E = new SAV3E(fileData);
 				trainerInfo = save3E;
 				break;
 			}
 			case SupportedGame.DP:
 			{
-				var save4Dpp = new SAV4DP();
-				fileData.CopyTo(save4Dpp.Data);
+				var save4Dpp = new SAV4DP(fileData);
 				trainerInfo = save4Dpp;
 				break;
 			}
 			case SupportedGame.PT:
 			{
-				var save4Pt = new SAV4Pt();
-				fileData.CopyTo(save4Pt.Data);
+				var save4Pt = new SAV4Pt(fileData);
 				trainerInfo = save4Pt;
 				break;
 			}
 			case SupportedGame.HGSS:
 			{
-				var save4Hgss = new SAV4HGSS();
-				fileData.CopyTo(save4Hgss.Data);
+				var save4Hgss = new SAV4HGSS(fileData);
 				trainerInfo = save4Hgss;
 				break;
 			}
