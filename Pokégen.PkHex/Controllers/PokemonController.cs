@@ -17,7 +17,7 @@ namespace Pokégen.PkHex.Controllers;
 /// <summary>
 /// Controller which serves routes for pokemon related data
 /// </summary>
-[Route("/pokemon/{game}")]
+[Route("pokemon/{game}")]
 [ApiController]
 public class PokemonController : ControllerBase
 {

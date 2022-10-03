@@ -12,7 +12,7 @@ namespace Pokégen.PkHex.Controllers;
 /// <summary>
 /// Controller which serves routes for Trainer related data
 /// </summary>
-[Route("/trainer")]
+[Route("trainer")]
 [ApiController]
 public class TrainerController : ControllerBase
 {
