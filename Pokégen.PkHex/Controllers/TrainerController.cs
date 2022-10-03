@@ -26,7 +26,7 @@ public class TrainerController : ControllerBase
 		=> TrainerService = trainerService;
 
 	/// <summary>
-	/// Gets Trainer data from the data block
+	/// Gets Trainer data from the MyStatus/Status block or whole savefile for gen 4 and below
 	/// </summary>
 	/// <param name="data">The data block holding the MyStatus/Status block or the whole savefile for gen 4 and below</param>
 	/// <param name="game">The game of this data block</param>
