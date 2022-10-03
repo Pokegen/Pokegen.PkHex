@@ -141,7 +141,7 @@ public class TrainerService
 				trainerInfo = save8Bdsp;
 				break;
 			}
-			case SupportedGame.PLA:
+			case SupportedGame.LA:
 				var save8Pla = new SAV8LA();
 				fileData.CopyTo(save8Pla.MyStatus.Data);
 				trainerInfo = save8Pla;

@@ -53,7 +53,7 @@ public class PokemonService
 			SupportedGame.LGPE => pokemon is PB7,
 			SupportedGame.SWSH => pokemon is PK8,
 			SupportedGame.BDSP => pokemon is PB8,
-			SupportedGame.PLA => pokemon is PA8,
+			SupportedGame.LA => pokemon is PA8,
 			_ => throw new ArgumentOutOfRangeException(nameof(game), game, null)
 		};
 
@@ -91,7 +91,7 @@ public class PokemonService
 			SupportedGame.LGPE => AutoLegalityModService.GetTrainerInfo<PB7>(),
 			SupportedGame.SWSH => AutoLegalityModService.GetTrainerInfo<PK8>(),
 			SupportedGame.BDSP => AutoLegalityModService.GetTrainerInfo<PB8>(),
-			SupportedGame.PLA => AutoLegalityModService.GetTrainerInfo<PA8>(),
+			SupportedGame.LA => AutoLegalityModService.GetTrainerInfo<PA8>(),
 			_ => throw new ArgumentOutOfRangeException(nameof(game))
 		};
 
@@ -133,7 +133,7 @@ public class PokemonService
 			SupportedGame.LGPE => EntityConverter.ConvertToType(pkm, typeof(PB7), out _) ?? pkm,
 			SupportedGame.SWSH => EntityConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm,
 			SupportedGame.BDSP => EntityConverter.ConvertToType(pkm, typeof(PB8), out _) ?? pkm,
-			SupportedGame.PLA => EntityConverter.ConvertToType(pkm, typeof(PA8), out _) ?? pkm,
+			SupportedGame.LA => EntityConverter.ConvertToType(pkm, typeof(PA8), out _) ?? pkm,
 			_ => throw new ArgumentOutOfRangeException(nameof(game), game, null)
 		};
 }
