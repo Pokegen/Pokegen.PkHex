@@ -9,13 +9,29 @@ using Pokégen.PkHex.Models;
 
 namespace Pokégen.PkHex.Services;
 
+/// <summary>
+/// Service providing Pokemon related functionality
+/// </summary>
 public class PokemonService
 {
 	private AutoLegalityModService AutoLegalityModService { get; }
 
+	/// <summary>
+	/// Creates a new <see cref="PokemonService"/> instance
+	/// </summary>
+	/// <param name="autoLegalityModService">The <see cref="autoLegalityModService"/> to use</param>
 	public PokemonService(AutoLegalityModService autoLegalityModService) 
 		=> AutoLegalityModService = autoLegalityModService;
 
+	/// <summary>
+	/// Gets a <see cref="PKM"/> from a FormFile
+	/// </summary>
+	/// <param name="file">The FormFile containing Pokemon data</param>
+	/// <param name="game">The expected game this Pokemon belongs to</param>
+	/// <returns>The provided pokemon as <see cref="PKM"/></returns>
+	/// <exception cref="PokemonParseException">If parsing this Pokemon failed</exception>
+	/// <exception cref="ArgumentOutOfRangeException">If the <see cref="game"/> is not Supported or invalid</exception>
+	/// <exception cref="LegalityException">If the provided pokemon is not legal</exception>
 	public async Task<PKM> GetPokemonFromFormFileAsync(IFormFile file, SupportedGame game)
 	{
 		await using var stream = new MemoryStream();
@@ -46,6 +62,13 @@ public class PokemonService
 		return pokemon;
 	}
 
+	/// <summary>
+	/// Creates a <see cref="PKM"/> from a Showdown Set
+	/// </summary>
+	/// <param name="showdownSet">The Showdown Set to convert</param>
+	/// <param name="game">The Game this <see cref="PKM"/> should be converted to</param>
+	/// <returns>A <see cref="PKM"/> representing the provided showdown set</returns>
+	/// <exception cref="ArgumentOutOfRangeException">If the <see cref="game"/> is not Supported or invalid</exception>
 	public Task<PKM> GetPokemonFromShowdown(string showdownSet, SupportedGame game)
 	{
 		var set = new ShowdownSet(showdownSet);
@@ -72,18 +95,31 @@ public class PokemonService
 			_ => throw new ArgumentOutOfRangeException(nameof(game))
 		};
 
-		var pkm = sav.GetLegal(template, out _);
+		var pkm = sav.GetLegal(template);
 
 		pkm = ConvertToWantedType(pkm, game);
 
 		return Task.FromResult(pkm);
 	}
 
+	/// <summary>
+	/// Checks if a <see cref="PKM"/> is legal and gets the encrypted/decrypted data
+	/// </summary>
+	/// <param name="pkm">The <see cref="PKM"/> to check legality and get bytes of</param>
+	/// <param name="encrypted">If the bytes returned should be encrypted</param>
+	/// <returns>The <see cref="PKM"/> data as byte array</returns>
 	public Task<byte[]> CheckLegalAndGetBytes(PKM pkm, bool encrypted)
 		=> !pkm.IsLegal() 
 			? Task.FromException<byte[]>(new LegalityException("Pokemon couldn't be legalized!")) 
 			: Task.FromResult(encrypted ? pkm.EncryptedPartyData : pkm.DecryptedPartyData);
 
+	/// <summary>
+	/// Converts a <see cref="PKM"/> file to a wanted <see cref="SupportedGame"/>
+	/// </summary>
+	/// <param name="pkm">The pokemon file to convert</param>
+	/// <param name="game">The game it should be converted to</param>
+	/// <returns>The converted <see cref="PKM"/></returns>
+	/// <exception cref="ArgumentOutOfRangeException">If the <see cref="SupportedGame"/> is invalid</exception>
 	public PKM ConvertToWantedType(PKM pkm, SupportedGame game) 
 		=> game switch
 		{

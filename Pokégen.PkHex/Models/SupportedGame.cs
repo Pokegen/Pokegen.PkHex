@@ -89,4 +89,9 @@ public enum SupportedGame
 	/// Pokemon Legends Arceus
 	/// </summary>
 	PLA,
+	
+	/// <summary>
+	/// Pokemon Scarlet & Violet
+	/// </summary>
+	SV
 }

@@ -3,13 +3,16 @@ using Microsoft.AspNetCore.Http;
 
 namespace Pokégen.PkHex.Exceptions.Api;
 
+/// <summary>
+/// 
+/// </summary>
 [StatusCode(StatusCodes.Status400BadRequest)]
 public abstract class BadRequestApiException : ApiBaseException
 {
-	protected BadRequestApiException()
-	{
-	}
-
+	/// <summary>
+	/// Creates a new instance with an optional message
+	/// </summary>
+	/// <param name="message">message describing the exception</param>
 	protected BadRequestApiException(string? message) : base(message)
 	{
 	}

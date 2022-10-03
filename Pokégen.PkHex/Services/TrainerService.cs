@@ -7,8 +7,18 @@ using Pokégen.PkHex.Models;
 
 namespace Pokégen.PkHex.Services;
 
+/// <summary>
+/// Service providing Trainer related functionality
+/// </summary>
 public class TrainerService
 {
+	/// <summary>
+	/// Get <see cref="ITrainerInfo"/> from a save file
+	/// </summary>
+	/// <param name="data">For Gen 1 - 4 the complete save file data, for Gen 5-8 the Status/MyStatus block of the savefile</param>
+	/// <param name="game">The supported game this <see cref="data"/> is from</param>
+	/// <returns>The <see cref="ITrainerInfo"/> of the save file block(s)</returns>
+	/// <exception cref="NotImplementedException">If the requested <see cref="SupportedGame"/> is not yet supported</exception>
 	public async Task<ITrainerInfo> GetTrainerInfo(IFormFile data, SupportedGame game)
 	{
 		ITrainerInfo trainerInfo;

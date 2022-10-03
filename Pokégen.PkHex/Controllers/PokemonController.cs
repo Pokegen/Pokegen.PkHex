@@ -14,6 +14,9 @@ using Pokégen.PkHex.Util;
 
 namespace Pokégen.PkHex.Controllers;
 
+/// <summary>
+/// Controller which serves routes for pokemon related data
+/// </summary>
 [Route("/pokemon/{game}")]
 [ApiController]
 public class PokemonController : ControllerBase
@@ -25,6 +28,11 @@ public class PokemonController : ControllerBase
 	private bool IsEncryptionWanted 
 		=> (Request.Headers["X-Pokemon-Encrypted"].FirstOrDefault() ?? "").ToLower() == "true";
 
+	/// <summary>
+	/// Creates a new instance of PokemonController
+	/// </summary>
+	/// <param name="pokemonService">The pokemon service to use</param>
+	/// <param name="downloaderService">The downloader service to use</param>
 	public PokemonController(PokemonService pokemonService, DownloaderService downloaderService)
 	{
 		PokemonService = pokemonService;

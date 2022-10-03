@@ -18,6 +18,10 @@ public class TrainerController : ControllerBase
 {
 	private TrainerService TrainerService { get; }
 
+	/// <summary>
+	/// Creates a new instance of TrainerController
+	/// </summary>
+	/// <param name="trainerService">The trainer service to use</param>
 	public TrainerController(TrainerService trainerService) 
 		=> TrainerService = trainerService;
 

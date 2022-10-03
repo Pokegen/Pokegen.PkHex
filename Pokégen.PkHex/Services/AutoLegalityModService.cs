@@ -8,22 +8,36 @@ using static Pokégen.PkHex.Util.Util;
 
 namespace Pokégen.PkHex.Services;
 
+/// <summary>
+/// Service to setup & provide AutoLegalityMod functionality
+/// </summary>
 public class AutoLegalityModService : IHostedService
 {
 	private bool Initialized { get; set; }
 
+	/// <summary>
+	/// Creates a new instance of <see cref="AutoLegalityModService"/>
+	/// </summary>
 	public AutoLegalityModService()
 	{
 		SetupSettings();
 		InitializeCoreStrings();
 	}
-
+	
+	/// <inheritdoc />
 	public Task StartAsync(CancellationToken cancellationToken) 
 		=> Initialized ? Task.CompletedTask : InitializeAsync(cancellationToken);
 
+	/// <inheritdoc />
 	public Task StopAsync(CancellationToken cancellationToken) 
 		=> Task.CompletedTask;
 
+	/// <summary>
+	/// Gets the <see cref="ITrainerInfo"/> for the wanted <see cref="PKM"/> version
+	/// </summary>
+	/// <typeparam name="T">The wanted Pokemon version</typeparam>
+	/// <returns><see cref="ITrainerInfo"/></returns>
+	/// <exception cref="ArgumentException">if the Pokemon version isn't recognized</exception>
 	public ITrainerInfo GetTrainerInfo<T>() where T : PKM
 	{
 		if (typeof(T) == typeof(PK1))
