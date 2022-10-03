@@ -69,7 +69,7 @@ public class AutoLegalityModService : IHostedService
 		APILegality.AllowTrainerOverride = GetEnvAsBoolOrDefault("ALM_ALLOW_TRAINER_OVERRIDE", true);
 		APILegality.AllowBatchCommands = GetEnvAsBoolOrDefault("ALM_ALLOW_BATCH_COMMAND", true);
 		APILegality.PrioritizeGame = GetEnvAsBoolOrDefault("ALM_PRIORITIZE_GAME", true);
-		APILegality.PrioritizeGameVersion= GetEnvAsEnumOrDefault<GameVersion>("ALM_PRIORITIZE_GAME_VERSION", GameVersion.Any);
+		APILegality.PrioritizeGameVersion= GetEnvAsEnumOrDefault("ALM_PRIORITIZE_GAME_VERSION", GameVersion.Any);
 		APILegality.SetBattleVersion = GetEnvAsBoolOrDefault("ALM_SET_BATTLE_VERSION", false);
 		APILegality.Timeout = GetEnvAsIntOrDefault("ALM_TIMEOUT", 15);
 		Legalizer.EnableEasterEggs = GetEnvAsBoolOrDefault("ALM_ENABLE_EASTER_EGGS", false);
