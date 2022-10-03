@@ -134,7 +134,7 @@ public class PokemonController : ControllerBase
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	[RequestFormLimits(MultipartBodyLengthLimit = 376)]
-	public async Task<IActionResult> GetPokemonFromFile([FromRoute] string game, [FromForm, Required] IFormFile file)
+	public async Task<IActionResult> GetPokemonFromFile([FromRoute] string game, [Required] IFormFile file)
 	{
 		var pkm = await PokemonService.GetPokemonFromFormFileAsync(file, SupportGameUtil.GetFromString(game));
 			
@@ -154,7 +154,7 @@ public class PokemonController : ControllerBase
 	[ProducesResponseType(StatusCodes.Status204NoContent)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	[RequestFormLimits(MultipartBodyLengthLimit = 376)]
-	public async Task<IActionResult> CheckFileLegality([FromRoute] string game, [FromForm, Required] IFormFile file)
+	public async Task<IActionResult> CheckFileLegality([FromRoute] string game, [Required] IFormFile file)
 	{
 		var pkm = await PokemonService.GetPokemonFromFormFileAsync(file, SupportGameUtil.GetFromString(game));
 
