@@ -47,7 +47,7 @@ public class PokemonController : ControllerBase
 	/// <returns>Pokemon Data as File</returns>
 	/// <response code="200">Returns the Pokemon Data of Showdown set</response>
 	/// <response code="400">The Pokemon set is invalid or illegal</response>     
-	[HttpGet, HttpPost]
+	[HttpPost]
 	[Route("showdown")]
 	[Produces(MediaTypeNames.Application.Octet, MediaTypeNames.Application.Json)]
 	[ProducesResponseType(StatusCodes.Status200OK)]
@@ -67,7 +67,7 @@ public class PokemonController : ControllerBase
 	/// <returns>Nothing</returns>
 	/// <response code="204">Pokemon is legal</response>
 	/// <response code="400">Pokemon is illegal</response>  
-	[HttpGet, HttpPost]
+	[HttpPost]
 	[Route("showdown/legality")]
 	[ProducesResponseType(StatusCodes.Status204NoContent)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -129,7 +129,7 @@ public class PokemonController : ControllerBase
 	/// <param name="game">Wanted game for the returned file format</param>
 	/// <param name="file">Uploaded Pokemon file</param>
 	/// <returns>Pokemon Data of file</returns>
-	[HttpGet, HttpPost]
+	[HttpPost]
 	[Route("file")]
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -149,7 +149,7 @@ public class PokemonController : ControllerBase
 	/// <returns>Nothing</returns>
 	/// <response code="204">Pokemon is legal</response>
 	/// <response code="400">Pokemon is illegal</response>  
-	[HttpGet, HttpPost]
+	[HttpPost]
 	[Route("file/legality")]
 	[ProducesResponseType(StatusCodes.Status204NoContent)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
