@@ -1,7 +1,7 @@
 namespace Pokégen.PkHex.Exceptions.Api;
 
 /// <summary>
-/// payload containing Api Exception type & message
+/// payload containing Api Exception type and message
 /// </summary>
 /// <param name="ErrorType">The type of error</param>
 /// <param name="Message">The message of the error</param>

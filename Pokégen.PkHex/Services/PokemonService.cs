@@ -19,7 +19,7 @@ public class PokemonService
 	/// <summary>
 	/// Creates a new <see cref="PokemonService"/> instance
 	/// </summary>
-	/// <param name="autoLegalityModService">The <see cref="autoLegalityModService"/> to use</param>
+	/// <param name="autoLegalityModService">The <see cref="AutoLegalityModService"/> to use</param>
 	public PokemonService(AutoLegalityModService autoLegalityModService) 
 		=> AutoLegalityModService = autoLegalityModService;
 
@@ -30,7 +30,7 @@ public class PokemonService
 	/// <param name="game">The expected game this Pokemon belongs to</param>
 	/// <returns>The provided pokemon as <see cref="PKM"/></returns>
 	/// <exception cref="PokemonParseException">If parsing this Pokemon failed</exception>
-	/// <exception cref="ArgumentOutOfRangeException">If the <see cref="game"/> is not Supported or invalid</exception>
+	/// <exception cref="ArgumentOutOfRangeException">If the <see cref="SupportedGame"/> is not Supported or invalid</exception>
 	/// <exception cref="LegalityException">If the provided pokemon is not legal</exception>
 	public async Task<PKM> GetPokemonFromFormFileAsync(IFormFile file, SupportedGame game)
 	{
@@ -68,7 +68,7 @@ public class PokemonService
 	/// <param name="showdownSet">The Showdown Set to convert</param>
 	/// <param name="game">The Game this <see cref="PKM"/> should be converted to</param>
 	/// <returns>A <see cref="PKM"/> representing the provided showdown set</returns>
-	/// <exception cref="ArgumentOutOfRangeException">If the <see cref="game"/> is not Supported or invalid</exception>
+	/// <exception cref="ArgumentOutOfRangeException">If the <see cref="SupportedGame"/> is not Supported or invalid</exception>
 	public Task<PKM> GetPokemonFromShowdown(string showdownSet, SupportedGame game)
 	{
 		var set = new ShowdownSet(showdownSet);

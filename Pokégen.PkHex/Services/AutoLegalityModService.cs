@@ -9,7 +9,7 @@ using static Pokégen.PkHex.Util.Util;
 namespace Pokégen.PkHex.Services;
 
 /// <summary>
-/// Service to setup & provide AutoLegalityMod functionality
+/// Service to setup and provide ALM (AutoLegalityMod) functionality
 /// </summary>
 public class AutoLegalityModService : IHostedService
 {

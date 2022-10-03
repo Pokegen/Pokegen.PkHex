@@ -6,17 +6,17 @@ namespace Pokégen.PkHex.Models;
 public enum SupportedGame
 {
 	/// <summary>
-	/// Pokemon Red, Blue & Yellow
+	/// Pokemon Red, Blue and Yellow
 	/// </summary>
 	RBY,
 
 	/// <summary>
-	/// Pokemon Gold, Silver & Crystal
+	/// Pokemon Gold, Silver and Crystal
 	/// </summary>
 	GSC,
 
 	/// <summary>
-	/// Pokemon Ruby & Sapphire
+	/// Pokemon Ruby and Sapphire
 	/// </summary>
 	RS,
 	
@@ -26,7 +26,7 @@ public enum SupportedGame
 	E,
 	
 	/// <summary>
-	/// Pokemon Diamond & Pearl
+	/// Pokemon Diamond and Pearl
 	/// </summary>
 	DP,
 	
@@ -36,52 +36,52 @@ public enum SupportedGame
 	PT,
 	
 	/// <summary>
-	/// Pokemon HeartGold & SoulSilver
+	/// Pokemon HeartGold and SoulSilver
 	/// </summary>
 	HGSS,
 
 	/// <summary>
-	/// Pokemon Black & White
+	/// Pokemon Black and White
 	/// </summary>
 	BW,
 	
 	/// <summary>
-	/// Pokemon Black 2 & White 2
+	/// Pokemon Black 2 and White 2
 	/// </summary>
 	BW2,
 
 	/// <summary>
-	/// Pokemon X & Y
+	/// Pokemon X and Y
 	/// </summary>
 	XY,
 	
 	/// <summary>
-	/// Pokemon Omega Ruby & Alpha Sapphire
+	/// Pokemon Omega Ruby and Alpha Sapphire
 	/// </summary>
 	ORAS,
 	
 	/// <summary>
-	/// Pokemon Sun & Moon
+	/// Pokemon Sun and Moon
 	/// </summary>
 	SM,
 	
 	/// <summary>
-	/// Pokemon Ultra Sun & Moon
+	/// Pokemon Ultra Sun and Moon
 	/// </summary>
 	USUM,
 	
 	/// <summary>
-	/// Pokemon Let's Go Pikachu & Eevee
+	/// Pokemon Let's Go Pikachu and Eevee
 	/// </summary>
 	LGPE,
 	
 	/// <summary>
-	/// Pokemon Sword & Shield
+	/// Pokemon Sword and Shield
 	/// </summary>
 	SWSH,
 
 	/// <summary>
-	/// Pokemon Brilliant Diamond & Shining Pearl
+	/// Pokemon Brilliant Diamond and Shining Pearl
 	/// </summary>
 	BDSP,
 	
@@ -91,7 +91,7 @@ public enum SupportedGame
 	PLA,
 	
 	/// <summary>
-	/// Pokemon Scarlet & Violet
+	/// Pokemon Scarlet and Violet
 	/// </summary>
 	SV
 }
