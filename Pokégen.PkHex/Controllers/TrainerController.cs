@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Pokégen.PkHex.Models;
+using Pokégen.PkHex.Models.Responses;
 using Pokégen.PkHex.Services;
 using Pokégen.PkHex.Util;
 

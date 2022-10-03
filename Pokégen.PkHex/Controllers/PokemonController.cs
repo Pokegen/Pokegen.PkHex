@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mime;
@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using PKHeX.Core;
 using Pokégen.PkHex.Exceptions;
 using Pokégen.PkHex.Extensions;
-using Pokégen.PkHex.Models;
+using Pokégen.PkHex.Models.Requests;
 using Pokégen.PkHex.Services;
 using Pokégen.PkHex.Util;
 

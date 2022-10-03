@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Pokégen.PkHex.Models;
+namespace Pokégen.PkHex.Models.Requests;
 
 /// <summary>
 /// Request containing Pokemon Showdown set

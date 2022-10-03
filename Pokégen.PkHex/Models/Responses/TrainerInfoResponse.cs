@@ -1,4 +1,4 @@
-namespace Pokégen.PkHex.Models;
+namespace Pokégen.PkHex.Models.Responses;
 
 /// <summary>
 /// API payload containing trainer info
