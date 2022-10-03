@@ -27,6 +27,14 @@ public class PokemonService
 		if (pokemon == null) throw new PokemonParseException("Couldn't parse provided file to any possible pokemon save file format.");
 
 		var correctGame = game switch {
+			SupportedGame.RBY => pokemon is PK1,
+			SupportedGame.GSC => pokemon is PK2,
+			SupportedGame.RS or SupportedGame.E => pokemon is PK3,
+			SupportedGame.DP or SupportedGame.PT or SupportedGame.HGSS => pokemon is PK4,
+			SupportedGame.BW or SupportedGame.BW2 => pokemon is PK5,
+			SupportedGame.XY or SupportedGame.ORAS => pokemon is PK6,
+			SupportedGame.USUM or SupportedGame.SM => pokemon is PK7,
+			SupportedGame.LGPE => pokemon is PB7,
 			SupportedGame.SWSH => pokemon is PK8,
 			SupportedGame.BDSP => pokemon is PB8,
 			SupportedGame.PLA => pokemon is PA8,
@@ -50,6 +58,14 @@ public class PokemonService
 
 		var sav = game switch
 		{
+			SupportedGame.RBY => AutoLegalityModService.GetTrainerInfo<PK1>(),
+			SupportedGame.GSC => AutoLegalityModService.GetTrainerInfo<PK2>(),
+			SupportedGame.RS or SupportedGame.E => AutoLegalityModService.GetTrainerInfo<PK3>(),
+			SupportedGame.DP or SupportedGame.PT or SupportedGame.HGSS => AutoLegalityModService.GetTrainerInfo<PK4>(),
+			SupportedGame.BW or SupportedGame.BW2 => AutoLegalityModService.GetTrainerInfo<PK5>(),
+			SupportedGame.XY or SupportedGame.ORAS => AutoLegalityModService.GetTrainerInfo<PK6>(),
+			SupportedGame.SM or SupportedGame.USUM => AutoLegalityModService.GetTrainerInfo<PK7>(),
+			SupportedGame.LGPE => AutoLegalityModService.GetTrainerInfo<PB7>(),
 			SupportedGame.SWSH => AutoLegalityModService.GetTrainerInfo<PK8>(),
 			SupportedGame.BDSP => AutoLegalityModService.GetTrainerInfo<PB8>(),
 			SupportedGame.PLA => AutoLegalityModService.GetTrainerInfo<PA8>(),
@@ -58,13 +74,7 @@ public class PokemonService
 
 		var pkm = sav.GetLegal(template, out _);
 
-		pkm = game switch
-		{
-			SupportedGame.SWSH => EntityConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm,
-			SupportedGame.BDSP => EntityConverter.ConvertToType(pkm, typeof(PB8), out _) ?? pkm,
-			SupportedGame.PLA => EntityConverter.ConvertToType(pkm, typeof(PA8), out _) ?? pkm,
-			_ => throw new ArgumentOutOfRangeException(nameof(game), game, null)
-		};
+		pkm = ConvertToWantedType(pkm, game);
 
 		return Task.FromResult(pkm);
 	}
@@ -73,4 +83,21 @@ public class PokemonService
 		=> !pkm.IsLegal() 
 			? Task.FromException<byte[]>(new LegalityException("Pokemon couldn't be legalized!")) 
 			: Task.FromResult(encrypted ? pkm.EncryptedPartyData : pkm.DecryptedPartyData);
+
+	public PKM ConvertToWantedType(PKM pkm, SupportedGame game) 
+		=> game switch
+		{
+			SupportedGame.RBY => EntityConverter.ConvertToType(pkm, typeof(PK1), out _) ?? pkm,
+			SupportedGame.GSC => EntityConverter.ConvertToType(pkm, typeof(PK2), out _) ?? pkm,
+			SupportedGame.RS or SupportedGame.E => EntityConverter.ConvertToType(pkm, typeof(PK3), out _) ?? pkm,
+			SupportedGame.DP or SupportedGame.PT or SupportedGame.HGSS => EntityConverter.ConvertToType(pkm, typeof(PK4), out _) ?? pkm,
+			SupportedGame.BW or SupportedGame.BW2 => EntityConverter.ConvertToType(pkm, typeof(PK5), out _) ?? pkm,
+			SupportedGame.XY or SupportedGame.ORAS => EntityConverter.ConvertToType(pkm, typeof(PK6), out _) ?? pkm,
+			SupportedGame.SM or SupportedGame.USUM => EntityConverter.ConvertToType(pkm, typeof(PK7), out _) ?? pkm,
+			SupportedGame.LGPE => EntityConverter.ConvertToType(pkm, typeof(PB7), out _) ?? pkm,
+			SupportedGame.SWSH => EntityConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm,
+			SupportedGame.BDSP => EntityConverter.ConvertToType(pkm, typeof(PB8), out _) ?? pkm,
+			SupportedGame.PLA => EntityConverter.ConvertToType(pkm, typeof(PA8), out _) ?? pkm,
+			_ => throw new ArgumentOutOfRangeException(nameof(game), game, null)
+		};
 }

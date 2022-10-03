@@ -12,9 +12,14 @@ namespace Pokégen.PkHex.Services;
 public class DownloaderService
 {
 	private HttpClient HttpClient { get; }
+	
+	private PokemonService PokemonService { get; }
 
-	public DownloaderService(HttpClient httpClient)
-		=> HttpClient = httpClient;
+	public DownloaderService(HttpClient httpClient, PokemonService pokemonService)
+	{
+		HttpClient = httpClient;
+		PokemonService = pokemonService;
+	}
 		
 	public async Task<PKM> DownloadPkmAsync(Uri uri, long? length, SupportedGame wantedGame)
 	{
@@ -53,11 +58,6 @@ public class DownloaderService
 		if (pkm == null)
 			throw new DownloadException("Invalid pkm file");
 
-		return wantedGame switch {
-			SupportedGame.SWSH => EntityConverter.ConvertToType(pkm, typeof(PK8), out _) ?? pkm,
-			SupportedGame.BDSP => EntityConverter.ConvertToType(pkm, typeof(PB8), out _) ?? pkm,
-			SupportedGame.PLA => EntityConverter.ConvertToType(pkm, typeof(PA8), out _) ?? pkm,
-			_ => throw new ArgumentOutOfRangeException(nameof(wantedGame), wantedGame, null)
-		};
+		return PokemonService.ConvertToWantedType(pkm, wantedGame);
 	}
 }

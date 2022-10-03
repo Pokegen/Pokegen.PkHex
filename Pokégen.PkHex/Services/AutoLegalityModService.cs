@@ -24,8 +24,24 @@ public class AutoLegalityModService : IHostedService
 	public Task StopAsync(CancellationToken cancellationToken) 
 		=> Task.CompletedTask;
 
-	public ITrainerInfo GetTrainerInfo<T>() where T : PKM, new()
+	public ITrainerInfo GetTrainerInfo<T>() where T : PKM
 	{
+		if (typeof(T) == typeof(PK1))
+			return TrainerSettings.GetSavedTrainerData(GameVersion.R, 1);
+		if (typeof(T) == typeof(PK2))
+			return TrainerSettings.GetSavedTrainerData(GameVersion.C, 2);
+		if (typeof(T) == typeof(PK3))
+			return TrainerSettings.GetSavedTrainerData(GameVersion.S, 3);
+		if (typeof(T) == typeof(PK4))
+			return TrainerSettings.GetSavedTrainerData(GameVersion.Pt, 4);
+		if (typeof(T) == typeof(PK5))
+			return TrainerSettings.GetSavedTrainerData(GameVersion.B2W2, 5);
+		if (typeof(T) == typeof(PK6))
+			return TrainerSettings.GetSavedTrainerData(GameVersion.XY, 6);
+		if (typeof(T) == typeof(PK7))
+			return TrainerSettings.GetSavedTrainerData(GameVersion.USUM, 7);
+		if (typeof(T) == typeof(PB7))
+			return TrainerSettings.GetSavedTrainerData(GameVersion.GP, 7);
 		if (typeof(T) == typeof(PK8))
 			return TrainerSettings.GetSavedTrainerData(GameVersion.SWSH, 8);
 		if (typeof(T) == typeof(PB8))
