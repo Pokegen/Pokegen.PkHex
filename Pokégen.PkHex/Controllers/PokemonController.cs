@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mime;
@@ -9,6 +9,7 @@ using PKHeX.Core;
 using Pokégen.PkHex.Exceptions;
 using Pokégen.PkHex.Extensions;
 using Pokégen.PkHex.Models.Requests;
+using Pokégen.PkHex.Models.Responses;
 using Pokégen.PkHex.Services;
 using Pokégen.PkHex.Util;
 
@@ -82,6 +83,27 @@ public class PokemonController : ControllerBase
 	}
 
 	/// <summary>
+	/// Creates a Summary of a Showdown Set
+	/// </summary>
+	/// <param name="body">Request body containing Showdown set</param>
+	/// <param name="game">Wanted game for the Showdown Set -> PKM conversion</param>
+	/// <returns>Nothing</returns>
+	/// <response code="200">Summary of Pokemon</response>
+	/// <response code="400">Showdown Set is invalid</response> 
+	/// <returns>Summary of Pokemon</returns>
+	[HttpPost]
+	[Route("showdown/summary")]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<PokemonSummary> GetSummaryFromShowdown([FromRoute] string game,
+		[FromBody, Required] PokemonShowdownRequest body)
+	{
+		var pkm = await PokemonService.GetPokemonFromShowdown(body.ShowdownSet, SupportGameUtil.GetFromString(game));
+
+		return pkm.ToSummary();
+	}
+
+	/// <summary>
 	/// Returns Pokemon Data from a file by url.
 	/// </summary>
 	/// <param name="game">Wanted game for the returned file format</param>
@@ -122,6 +144,27 @@ public class PokemonController : ControllerBase
 			
 		throw new LegalityException("Pokemon couldn't be legalized!");
 	}
+	
+	/// <summary>
+	/// Returns Pokemon Summary from a file by url.
+	/// </summary>
+	/// <param name="game">Wanted game for the Summary</param>
+	/// <param name="url">The url of the file</param>
+	/// <param name="size">Optional, the size of the file if already known ahead of making a request</param>
+	/// <returns>Pokemon Data of file</returns>
+	/// <response code="200">Returns the Pokemon Summary of the file</response>
+	/// <response code="400">Pokemon file is invalid</response>  
+	[HttpGet("url/summary")]
+	[Produces(MediaTypeNames.Application.Octet, MediaTypeNames.Application.Json)]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<PokemonSummary> GetPokemonSummaryFromUrl([FromRoute] string game, [FromQuery, Required] string url, [FromQuery] long? size)
+	{
+		var pkm = await DownloaderService.DownloadPkmAsync(new Uri(url), size, SupportGameUtil.GetFromString(game));
+
+		return pkm.ToSummary();
+	}
+	
 
 	/// <summary>
 	/// Returns Pokemon Data from an uploaded file.
@@ -163,8 +206,26 @@ public class PokemonController : ControllerBase
 			
 		throw new LegalityException("Pokemon couldn't be legalized!");
 	}
+	
+	/// <summary>
+	/// Returns Pokemon Summary from an uploaded file.
+	/// </summary>
+	/// <param name="game">Wanted game for the Summary</param>
+	/// <param name="file">Uploaded Pokemon file</param>
+	/// <returns>Pokemon Summary of file</returns>
+	[HttpPost]
+	[Route("file/summary")]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	[RequestFormLimits(MultipartBodyLengthLimit = 376)]
+	public async Task<PokemonSummary> GetPokemonSummaryFromFile([FromRoute] string game, [Required] IFormFile file)
+	{
+		var pkm = await PokemonService.GetPokemonFromFormFileAsync(file, SupportGameUtil.GetFromString(game));
 
-	private async Task<FileContentResult> ReturnPokemonFile(PKM pkm, bool encrypted = false)
+		return pkm.ToSummary();
+	}
+	
+	private async Task<IActionResult> ReturnPokemonFile(PKM pkm, bool encrypted = false)
 	{
 		Response.Headers.Add("X-Pokemon-Species", ((Species) pkm.Species).ToString());
 		Response.Headers.Add("X-Pokemon-Language", ((LanguageID) pkm.Language).ToString());
