@@ -88,7 +88,7 @@ public class PokemonController : ControllerBase
 	/// <param name="url">The url of the file</param>
 	/// <param name="size">Optional, the size of the file if already known ahead of making a request</param>
 	/// <returns>Pokemon Data of file</returns>
-	/// <response code="204">Returns the Pokemon Data of the file</response>
+	/// <response code="200">Returns the Pokemon Data of the file</response>
 	/// <response code="400">Pokemon is illegal or invalid</response>  
 	[HttpGet("url")]
 	[Produces(MediaTypeNames.Application.Octet, MediaTypeNames.Application.Json)]
