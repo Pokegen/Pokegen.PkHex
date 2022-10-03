@@ -33,16 +33,16 @@ public class TrainerController : ControllerBase
 	/// <returns>Trainer information</returns>
 	/// <exception cref="NotImplementedException">If the specified Game is not yet implemented</exception>
 	[HttpPost("{game}")]
-	public async Task<IActionResult> GetTrainerAsync([FromForm, Required] IFormFile data, string game)
+	public async Task<TrainerInfoResponse> GetTrainerAsync([Required] IFormFile data, string game)
 	{
 		var trainerInfo = await TrainerService.GetTrainerInfo(data, SupportGameUtil.GetFromString(game));
 
-		return Ok(new TrainerInfoResponse(trainerInfo.TID, 
+		return new TrainerInfoResponse(trainerInfo.TID,
 			trainerInfo.SID,
 			trainerInfo.OT,
 			trainerInfo.Gender,
 			trainerInfo.Game,
 			trainerInfo.Language,
-			trainerInfo.Generation));
+			trainerInfo.Generation);
 	}
 } 
