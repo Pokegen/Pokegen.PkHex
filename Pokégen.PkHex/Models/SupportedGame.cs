@@ -93,5 +93,6 @@ public enum SupportedGame
 	/// <summary>
 	/// Pokemon Scarlet and Violet
 	/// </summary>
+	[Unreleased]
 	SV
 }
