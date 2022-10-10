@@ -3,6 +3,9 @@ name: Build Docker Image
 on:
   push:
     branches: [master]
+    paths:
+      - Pokégen.PkHex/**
+      - .github/workflows/docker-build-master.yml
 
 jobs:
   docker:
