@@ -16,6 +16,9 @@ jobs:
       - name: Checkout Source code
         uses: actions/checkout@v2
 
+      - name: Get Branch Name
+        run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
 
@@ -49,9 +52,11 @@ jobs:
           push: true
           tags: |
             pokegen/pkhex-api:${{ steps.sha_short.outputs.sha_short }}
-            pokegen/pkhex-api:${GITHUB_REF##*/}
+            pokegen/pkhex-api:${{ env.BRANCH }}
             ghcr.io/pokegen/pkhex-api:${{ steps.sha_short.outputs.sha_short }}
-            ghcr.io/pokegen/pkhex-api:${GITHUB_REF##*/}
+            ghcr.io/pokegen/pkhex-api:${{ env.BRANCH }}
+          build-args: |
+            BRANCH=${{ env.BRANCH }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
