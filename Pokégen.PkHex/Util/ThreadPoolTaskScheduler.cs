@@ -18,7 +18,7 @@ public class ThreadPoolTaskScheduler : TaskScheduler
 	public ThreadPoolTaskScheduler(int maxThreads)
 	{
 		MaxDegreeOfParallelism = maxThreads;
-		ThreadPool = new SmartThreadPool(10, MaxDegreeOfParallelism);
+		ThreadPool = new SmartThreadPool(120_000, MaxDegreeOfParallelism);
 	}
 
 	// Gets the maximum concurrency level supported by this scheduler.
