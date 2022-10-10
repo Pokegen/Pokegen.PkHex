@@ -14,12 +14,15 @@ namespace Pokégen.PkHex.Services;
 public class AutoLegalityModService : IHostedService
 {
 	private bool Initialized { get; set; }
+	
+	private MGDBService MgdbService { get; }
 
 	/// <summary>
 	/// Creates a new instance of <see cref="AutoLegalityModService"/>
 	/// </summary>
-	public AutoLegalityModService()
+	public AutoLegalityModService(MGDBService mgdbService)
 	{
+		MgdbService = mgdbService;
 		SetupSettings();
 		InitializeCoreStrings();
 	}
@@ -68,6 +71,8 @@ public class AutoLegalityModService : IHostedService
 
 	private async Task InitializeAsync(CancellationToken cancellationToken)
 	{
+		if(GetEnvAsBoolOrDefault("PKHEX_UPDATE_MGDB_ON_STARTUP", false)) 
+			await MgdbService.DownloadAndCleanup("./mgdb");
 		await Task.WhenAll(
 			Task.Run(() => EncounterEvent.RefreshMGDB("./mgdb"), cancellationToken),
 			Task.Run(InitializeTrainerDatabase, cancellationToken));

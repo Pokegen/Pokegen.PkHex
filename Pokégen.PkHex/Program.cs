@@ -46,6 +46,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<AutoLegalityModService>();
+builder.Services.AddSingleton<MGDBService>();
 builder.Services.AddHostedService(provider => provider.GetService<AutoLegalityModService>());
 builder.Services.AddSingleton<DownloaderService>();
 builder.Services.AddSingleton<PokemonService>();
