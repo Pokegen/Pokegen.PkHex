@@ -21,6 +21,11 @@ public enum SupportedGame
 	RS,
 	
 	/// <summary>
+	/// Pokemon Fire Red and Leaf Green
+	/// </summary>
+	FRLG,
+	
+	/// <summary>
 	/// Pokemon Emerald
 	/// </summary>
 	E,
@@ -66,7 +71,7 @@ public enum SupportedGame
 	SM,
 	
 	/// <summary>
-	/// Pokemon Ultra Sun and Moon
+	/// Pokemon Ultra Sun and Ultra Moon
 	/// </summary>
 	USUM,
 	

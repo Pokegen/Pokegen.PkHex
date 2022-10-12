@@ -45,7 +45,7 @@ public class PokemonService
 		var correctGame = game switch {
 			SupportedGame.RBY => pokemon is PK1,
 			SupportedGame.GSC => pokemon is PK2,
-			SupportedGame.RS or SupportedGame.E => pokemon is PK3,
+			SupportedGame.RS or SupportedGame.E or SupportedGame.FRLG => pokemon is PK3,
 			SupportedGame.DP or SupportedGame.PT or SupportedGame.HGSS => pokemon is PK4,
 			SupportedGame.BW or SupportedGame.BW2 => pokemon is PK5,
 			SupportedGame.XY or SupportedGame.ORAS => pokemon is PK6,
@@ -83,7 +83,7 @@ public class PokemonService
 		{
 			SupportedGame.RBY => AutoLegalityModService.GetTrainerInfo<PK1>(),
 			SupportedGame.GSC => AutoLegalityModService.GetTrainerInfo<PK2>(),
-			SupportedGame.RS or SupportedGame.E => AutoLegalityModService.GetTrainerInfo<PK3>(),
+			SupportedGame.RS or SupportedGame.E or SupportedGame.FRLG => AutoLegalityModService.GetTrainerInfo<PK3>(),
 			SupportedGame.DP or SupportedGame.PT or SupportedGame.HGSS => AutoLegalityModService.GetTrainerInfo<PK4>(),
 			SupportedGame.BW or SupportedGame.BW2 => AutoLegalityModService.GetTrainerInfo<PK5>(),
 			SupportedGame.XY or SupportedGame.ORAS => AutoLegalityModService.GetTrainerInfo<PK6>(),
@@ -125,7 +125,7 @@ public class PokemonService
 		{
 			SupportedGame.RBY => EntityConverter.ConvertToType(pkm, typeof(PK1), out _) ?? pkm,
 			SupportedGame.GSC => EntityConverter.ConvertToType(pkm, typeof(PK2), out _) ?? pkm,
-			SupportedGame.RS or SupportedGame.E => EntityConverter.ConvertToType(pkm, typeof(PK3), out _) ?? pkm,
+			SupportedGame.RS or SupportedGame.E or SupportedGame.FRLG => EntityConverter.ConvertToType(pkm, typeof(PK3), out _) ?? pkm,
 			SupportedGame.DP or SupportedGame.PT or SupportedGame.HGSS => EntityConverter.ConvertToType(pkm, typeof(PK4), out _) ?? pkm,
 			SupportedGame.BW or SupportedGame.BW2 => EntityConverter.ConvertToType(pkm, typeof(PK5), out _) ?? pkm,
 			SupportedGame.XY or SupportedGame.ORAS => EntityConverter.ConvertToType(pkm, typeof(PK6), out _) ?? pkm,

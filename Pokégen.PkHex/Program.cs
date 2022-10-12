@@ -1,12 +1,15 @@
 using System;
 using System.IO;
 using System.Net.Http;
+using System.Text.Json.Serialization;
+using AngleSharp;
 using AspNetCore.ExceptionHandler;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Pokégen.PkHex.Services;
+using Pokégen.PkHex.Services.Serebii;
 using Pokégen.PkHex.Util;
 using Serilog;
 using Serilog.Enrichers;
@@ -42,17 +45,27 @@ builder.Host.UseSerilog((_, _, loggerConfiguration) =>
 });
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+	.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSingleton<AutoLegalityModService>();
-builder.Services.AddSingleton<PokemonMoveService>();
+builder.Services.AddSingleton<BasicPokemonInfoService>();
 builder.Services.AddHostedService(provider => provider.GetService<AutoLegalityModService>());
-builder.Services.AddHostedService(provider => provider.GetService<PokemonMoveService>());
+builder.Services.AddHostedService(provider => provider.GetService<BasicPokemonInfoService>());
 builder.Services.AddSingleton<DownloaderService>();
 builder.Services.AddSingleton<PokemonService>();
 builder.Services.AddSingleton<TrainerService>();
 builder.Services.AddSingleton<HttpClient>();
+
+// Html Parsing
+builder.Services.AddSingleton(BrowsingContext.New(Configuration.Default));
+
+// Parsers
+builder.Services.AddSingleton<ISerebiiGenerationParser, SerebiiGen1Parser>();
+builder.Services.AddSingleton<ISerebiiGenerationParser, SerebiiGen2Parser>();
+builder.Services.AddSingleton<ISerebiiGenerationParser, SerebiiGen3Parser>();
 			
 builder.Services.AddCors(options =>
 {

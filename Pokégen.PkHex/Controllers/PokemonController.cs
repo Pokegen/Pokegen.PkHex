@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mime;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using PKHeX.Core;
 using Pokégen.PkHex.Exceptions;
 using Pokégen.PkHex.Extensions;
+using Pokégen.PkHex.Models;
 using Pokégen.PkHex.Models.Requests;
 using Pokégen.PkHex.Models.Responses;
 using Pokégen.PkHex.Services;
@@ -25,6 +27,8 @@ public class PokemonController : ControllerBase
 	private PokemonService PokemonService { get; }
 		
 	private DownloaderService DownloaderService { get; }
+	
+	private BasicPokemonInfoService BasicPokemonInfoService { get; }
 
 	private bool IsEncryptionWanted 
 		=> (Request.Headers["X-Pokemon-Encrypted"].FirstOrDefault() ?? "").ToLower() == "true";
@@ -34,10 +38,11 @@ public class PokemonController : ControllerBase
 	/// </summary>
 	/// <param name="pokemonService">The pokemon service to use</param>
 	/// <param name="downloaderService">The downloader service to use</param>
-	public PokemonController(PokemonService pokemonService, DownloaderService downloaderService)
+	public PokemonController(PokemonService pokemonService, DownloaderService downloaderService, BasicPokemonInfoService basicPokemonInfoService)
 	{
 		PokemonService = pokemonService;
 		DownloaderService = downloaderService;
+		BasicPokemonInfoService = basicPokemonInfoService;
 	}
 
 	/// <summary>
@@ -224,7 +229,17 @@ public class PokemonController : ControllerBase
 
 		return pkm.ToSummary();
 	}
+
 	
+	[HttpGet]
+	[Route("basic")]
+	public Task<IEnumerable<BasicPokemonInfo>> GetSerebiiPokemonByGame([FromRoute] string game)
+	{
+		var list = BasicPokemonInfoService.BasicPokemonInfos[SupportGameUtil.GetFromString(game)];
+
+		return Task.FromResult(list.OrderBy(e => e.Species).AsEnumerable());
+	}
+
 	private async Task<IActionResult> ReturnPokemonFile(PKM pkm, bool encrypted = false)
 	{
 		Response.Headers.Add("X-Pokemon-Species", ((Species) pkm.Species).ToString());

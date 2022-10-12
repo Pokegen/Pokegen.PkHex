@@ -53,6 +53,12 @@ public class TrainerService
 				trainerInfo = save3E;
 				break;
 			}
+			case SupportedGame.FRLG:
+			{
+				var save3E = new SAV3FRLG(fileData);
+				trainerInfo = save3E;
+				break;
+			}
 			case SupportedGame.DP:
 			{
 				var save4Dpp = new SAV4DP(fileData);
