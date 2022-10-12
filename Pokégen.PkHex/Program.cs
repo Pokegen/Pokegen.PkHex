@@ -52,6 +52,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSingleton<AutoLegalityModService>();
 builder.Services.AddSingleton<BasicPokemonInfoService>();
+builder.Services.AddSingleton<MGDBService>();
 builder.Services.AddHostedService(provider => provider.GetService<AutoLegalityModService>());
 builder.Services.AddHostedService(provider => provider.GetService<BasicPokemonInfoService>());
 builder.Services.AddSingleton<DownloaderService>();
