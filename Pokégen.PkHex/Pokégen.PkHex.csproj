@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
+        <LangVersion>11</LangVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -15,7 +16,7 @@
 
     <ItemGroup>
         <PackageReference Include="AspNetCore.ExceptionHandler" Version="1.1.0" />
-        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="6.0.9" />
+        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.0" />
         <PackageReference Include="PKHeX.Core" Version="22.9.13" />
         <PackageReference Include="Sentry.AspNetCore" Version="3.22.0" />
         <PackageReference Include="Sentry.Serilog" Version="3.22.0" />
