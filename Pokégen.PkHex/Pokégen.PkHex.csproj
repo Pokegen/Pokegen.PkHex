@@ -18,8 +18,8 @@
         <PackageReference Include="AspNetCore.ExceptionHandler" Version="1.1.0" />
         <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.0" />
         <PackageReference Include="PKHeX.Core" Version="22.11.26" />
-        <PackageReference Include="Sentry.AspNetCore" Version="3.22.0" />
-        <PackageReference Include="Sentry.Serilog" Version="3.22.0" />
+        <PackageReference Include="Sentry.AspNetCore" Version="3.24.0" />
+        <PackageReference Include="Sentry.Serilog" Version="3.24.0" />
         <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
         <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
