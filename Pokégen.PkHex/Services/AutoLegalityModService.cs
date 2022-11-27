@@ -122,7 +122,7 @@ public class AutoLegalityModService : IHostedService
 			}
 		}
 
-		var trainer = TrainerSettings.GetSavedTrainerData(PKX.Generation);
+		var trainer = TrainerSettings.GetSavedTrainerData(PKX.Generation, GameVersion.Any);
 		RecentTrainerCache.SetRecentTrainer(trainer);
 	}
 
