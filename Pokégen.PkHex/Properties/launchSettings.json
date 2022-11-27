@@ -29,7 +29,7 @@
 		  "PKHEX_DEFAULT_TID": "123456",
 		  "PKHEX_DEFAULT_SID": "1234",
 		  "PKHEX_DEFAULT_LANGUAGE": "English",
-		  "PKHEX_UPDATE_MGDB_ON_STARTUP": "true"
+		  "PKHEX_UPDATE_MGDB_ON_STARTUP": "false"
       }
     }
   }
