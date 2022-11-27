@@ -229,6 +229,8 @@ public class PokemonController : ControllerBase
 	{
 		Response.Headers.Add("X-Pokemon-Species", ((Species) pkm.Species).ToString());
 		Response.Headers.Add("X-Pokemon-Language", ((LanguageID) pkm.Language).ToString());
+		Response.Headers.Add("X-Pokemon-Format", pkm.Format.ToString());
+		Response.Headers.Add("X-Pokemon-Checksum-Valid", pkm.ChecksumValid.ToString());
 		if (pkm is ISanityChecksum sanityChecksum) Response.Headers.Add("X-Pokemon-Checksum", sanityChecksum.Checksum.ToString());
 
 		pkm.ResetPartyStats();
